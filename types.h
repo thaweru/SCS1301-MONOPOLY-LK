@@ -28,4 +28,18 @@ struct Player{
 	struct PlayerStratergy stratergy;
 };
 
+void takeTurn();
+void purchaseProperty(struct Property);
+void payRent(int);
+void declareBankrupt();
+int calculateNetWorth();
+
+//Board attributes
+struct Board{
+	struct Square square[40];
+};
+
+void initializeBoard();
+struct Square getSquare(int);
+
 #endif
