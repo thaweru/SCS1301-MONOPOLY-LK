@@ -17,7 +17,7 @@ struct Player determineWinner();
 
 //Player attributes
 struct Player{
-	char *name;
+	char name[];
 	int cash;
 	int position;
 	char InJail;
@@ -41,5 +41,12 @@ struct Board{
 
 void initializeBoard();
 struct Square getSquare(int);
+
+struct Square{
+	int index;
+	char name[];
+	union SquareType type;
+};
+
 
 #endif
