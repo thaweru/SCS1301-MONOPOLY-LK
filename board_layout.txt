@@ -1,0 +1,40 @@
+0 Start GO
+1 Property Pettah
+2 Event Community Development Fund
+3 Property Maradana
+4 Tax Income Tax
+5 Railway Colombo Fort Railway Station
+6 Property Bambalapitiya
+7 Event National Event Card
+8 Property Wellawatte
+9 Property Mount Lavinia
+10 Special Jail / Just Visiting
+11 Property Nugegoda
+12 Utility Ceylon Electricity Board
+13 Property Maharagama
+14 Property Kottawa
+15 Railway Kandy Railway Station
+16 Property Negombo
+17 Insurance Sri Lanka Insurance
+18 Property Katunayake
+19 Property Ja-Ela
+20 Special Free Parking
+21 Property Kandy City
+22 Event National Event Card
+23 Property Peradeniya
+24 Property Katugastota
+25 Railway Galle Railway Station
+26 Property Galle Fort
+27 Property Unawatuna
+28 Utility National Water Supply and Drainage Board
+29 Property Hikkaduwa
+30 Special Go To Jail
+31 Property Jaffna Town
+32 Property Nallur
+33 Insurance Ceylinco Insurance
+34 Property Trincomalee
+35 Railway Jaffna Railway Station
+36 Event National Event Card
+37 Property Nuwara Eliya
+38 Bank Bank of Ceylon
+39 Property Galle Face
