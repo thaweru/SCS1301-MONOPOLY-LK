@@ -48,5 +48,23 @@ struct Square{
 	union SquareType type;
 };
 
+struct Property{
+	int purchasePrice;
+	int morgageValue;
+	int baseRental;
+	int houseCost;
+	int hotelCost;
+	enum PropertyGroup group;
+	struct Player owner;
+	char morgaged;
+	int numHouses;
+	char hasHotel;
+	int condition;
+	int age;
+};
 
+int calculateRent(int);
+void construct();
+void morgage();
+void renovate();
 #endif
