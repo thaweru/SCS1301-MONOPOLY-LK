@@ -3,5 +3,6 @@
 
 int main(){
 	char duble;
-	printf("%i, duble = %i", dice(&duble), duble);
+	for (int i=0; i < 24; i++)
+	printf("%i, duble = %i\n", dice(&duble), duble);
 }
