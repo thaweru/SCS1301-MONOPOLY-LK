@@ -1,5 +1,4 @@
-//#include "types.h"
-#include "board.c"
+#include "types.h"
 #include <stdio.h>
 
 int main(){
