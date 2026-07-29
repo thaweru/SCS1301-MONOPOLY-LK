@@ -1,0 +1,41 @@
+Type,Name,Purchase Price (LKR),Base Rent (LKR),Property Group
+START,GO,,,
+PROPERTY,Pettah,"1,500",100,Brown
+EVENT,Community Development Fund,,,
+PROPERTY,Maradana,"1,800",120,Brown
+TAX,Income Tax,,,
+RAILWAY,Colombo Fort Railway Station,,,
+PROPERTY,Bambalapitiya,"2,500",180,Light Blue
+EVENT,National Event Card,,,
+PROPERTY,Wellawatte,"2,700",200,Light Blue
+PROPERTY,Mount Lavinia,"3,000",220,Light Blue
+SPECIAL,Jail / Just Visiting,,,
+PROPERTY,Nugegoda,"3,500",260,Pink
+UTILITY,Ceylon Electricity Board,,,
+PROPERTY,Maharagama,"3,800",280,Pink
+PROPERTY,Kottawa,"4,000",300,Pink
+RAILWAY,Kandy Railway Station,,,
+PROPERTY,Negombo,"4,500",350,Orange
+INSURANCE,Sri Lanka Insurance,,,
+PROPERTY,Katunayake,"4,700",370,Orange
+PROPERTY,Ja-Ela,"5,000",400,Orange
+SPECIAL,Free Parking,,,
+PROPERTY,Kandy City,"5,500",450,Red
+EVENT,National Event Card,,,
+PROPERTY,Peradeniya,"5,800",480,Red
+PROPERTY,Katugastota,"6,000",500,Red
+RAILWAY,Galle Railway Station,,,
+PROPERTY,Galle Fort,"6,500",600,Yellow
+PROPERTY,Unawatuna,"6,800",620,Yellow
+UTILITY,National Water Supply and Drainage Board,,,
+PROPERTY,Hikkaduwa,"7,000",650,Yellow
+SPECIAL,Go To Jail,,,
+PROPERTY,Jaffna Town,"8,000",750,Green
+PROPERTY,Nallur,"8,300",780,Green
+INSURANCE,Ceylinco Insurance,,,
+PROPERTY,Trincomalee,"8,500",800,Green
+RAILWAY,Jaffna Railway Station,,,
+EVENT,National Event Card,,,
+PROPERTY,Nuwara Eliya,"10,000","1,000",Dark Blue
+BANK,Bank of Ceylon,,,
+PROPERTY,Galle Face,"12,000","1,200",Dark Blue
