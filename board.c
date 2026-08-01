@@ -2,17 +2,21 @@
 #include <stdlib.h>
 #include <time.h>
 
-void init_game(int n, char **arr){
+bd init_game(int n, char **arr){
 	unsigned int seed;
 	if (n == 2){
 		char *str = arr[1];
 		char *endptr;
 		seed = strtol(str, &endptr, 10) % UINT_MAX;
 	}else{
-		seed = (unsigned int)time(NULL);
+		seed = time(NULL);
 	}
 	srand(seed);
 	printf("Seed : %u\n", seed);
+	bd bord;
+//	bord.s[0] = {0, "GO"};
+
+	return bord;
 }
 
 int dice(char *duble){
@@ -24,4 +28,7 @@ int dice(char *duble){
 		*(duble) = 0;
 	}
 	return a+b;
+}
+
+void start_game(){
 }

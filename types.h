@@ -19,7 +19,7 @@ typedef union SquareType{
 
 typedef struct Square{
 	char type;
-	char name[42];
+	char *name;
 	char group;
 	int buyPrice;
 	int baseRent;
@@ -34,5 +34,6 @@ typedef struct Board{
 } bd;
 
 int dice(char *duble);
-void init_game(int n, char **arr);
+bd init_game(int n, char **arr);
+void start_game();
 #endif
