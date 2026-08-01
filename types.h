@@ -3,7 +3,7 @@
 
 //Player attributes
 typedef struct Player{
-	char name[];
+	char name[24];
 	char strategy;
 	int cash;
 	int position;
@@ -13,13 +13,13 @@ typedef struct Player{
 } plyr;
 
 typedef union SquareType{
-	struct Property prpty;
-	struct 
+//	struct Property prpty;
+//	struct 
 } sqrtype;
 
 typedef struct Square{
 	char type;
-	char name[];
+	char name[42];
 	char group;
 	int buyPrice;
 	int baseRent;
@@ -30,8 +30,9 @@ typedef struct Square{
 } sqr;
 
 typedef struct Board{
-	sqr s[40]
+	sqr s[40];
 } bd;
 
 int dice(char *duble);
+void init_game(int n, char **arr);
 #endif
