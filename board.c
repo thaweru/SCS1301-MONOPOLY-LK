@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 
+int sqr_type_enum(char *str){
+	int type;
+	return type;
+}
+
 bd init_game(int n, char **arr){
 	unsigned int seed;
 	if (n == 2){
@@ -17,10 +22,22 @@ bd init_game(int n, char **arr){
 	bd bord;
 	FILE *fp = fopen("square_info.csv", "r");
 	char li[128];
+	char typ[8];
+	char name[42];
 	fscanf(fp, " %[^\n]", li);
 	for (int i=0; i < 40; i++){
-		fscanf(fp, "%[^,],", li);
-		fscanf(fp, "%[^\n]\n", li);
+		fscanf(fp, " %[^,],%[^,],%[^\n]\n", typ, name, li);
+		if (strcmp(typ, "START") == 0){
+			bord.s[i].type = START;
+			puts("test if read");
+		}
+		if (strcmp(typ, "PROPERTY") == 0){
+			bord.s[i].type = PROPERTY;
+			puts("test if read");
+		}
+		puts(typ);
+		strcpy(bord.s[i].name, name);
+		puts(bord.s[i].name);
 		puts(li);
 	}
 //	bord.s[0] = {0, "GO"};

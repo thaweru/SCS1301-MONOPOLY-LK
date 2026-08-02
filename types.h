@@ -12,14 +12,19 @@ typedef struct Player{
 //	struct Loan;
 } plyr;
 
-typedef union SquareType{
-//	struct Property prpty;
-//	struct 
-} sqrtype;
+typedef enum sqrType{
+	START,
+	PROPERTY,
+	RAILWAY,
+	UTILITY,
+	EVENT,
+	SPECIAL,
+	BANK
+} sqrTyp;
 
 typedef struct Square{
-	char type;
-	char *name;
+	sqrTyp type;
+	char name[42];
 	char group;
 	int buyPrice;
 	int baseRent;
