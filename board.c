@@ -13,7 +13,16 @@ bd init_game(int n, char **arr){
 	}
 	srand(seed);
 	printf("Seed : %u\n", seed);
+
 	bd bord;
+	FILE *fp = fopen("square_info.csv", "r");
+	char li[128];
+	fscanf(fp, " %[^\n]", li);
+	for (int i=0; i < 40; i++){
+		fscanf(fp, "%[^,],", li);
+		fscanf(fp, "%[^\n]\n", li);
+		puts(li);
+	}
 //	bord.s[0] = {0, "GO"};
 
 	return bord;
