@@ -11,8 +11,7 @@ bd init_game(int n, char **arr){
 	unsigned int seed;
 	if (n == 2){
 		char *str = arr[1];
-		char *endptr;
-		seed = strtol(str, &endptr, 10) % UINT_MAX;
+		seed = strtol(str, NULL, 10) % UINT_MAX;
 	}else{
 		seed = time(NULL);
 	}
@@ -22,22 +21,26 @@ bd init_game(int n, char **arr){
 	bd bord;
 	FILE *fp = fopen("square_info.csv", "r");
 	char li[128];
-	char typ[8];
+	char typ[12];
 	char name[42];
 	fscanf(fp, " %[^\n]", li);
 	for (int i=0; i < 40; i++){
-		fscanf(fp, " %[^,],%[^,],%[^\n]\n", typ, name, li);
+		fscanf(fp, " %[^,],%[^,],", typ, name);
+		strcpy(bord.s[i].name, name);
 		if (strcmp(typ, "START") == 0){
 			bord.s[i].type = START;
 			puts("test if read");
 		}
 		if (strcmp(typ, "PROPERTY") == 0){
 			bord.s[i].type = PROPERTY;
+			fscanf(fp, "%[^,],", typ);
+			bord.s[i].buyPrice = strtol(typ, NULL, 10);
+			fscanf(fp, "%[^,],", typ);
+			bord.s[i].baseRent = strtol(typ, NULL, 10);
 			puts("test if read");
 		}
-		puts(typ);
-		strcpy(bord.s[i].name, name);
 		puts(bord.s[i].name);
+		fscanf(fp, "%[^\n]\n", li);
 		puts(li);
 	}
 //	bord.s[0] = {0, "GO"};
