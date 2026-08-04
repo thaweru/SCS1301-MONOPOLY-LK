@@ -13,6 +13,7 @@ typedef struct Player{
 } plyr;
 
 typedef enum sqrType{
+	EMPTY = -1,
 	START,
 	PROPERTY,
 	RAILWAY,

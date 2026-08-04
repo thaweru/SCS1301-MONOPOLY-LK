@@ -22,7 +22,7 @@ sqrTyp square_type(char *str){
 	if (strcmp(str, "EVENT") == 0) return EVENT;
 	if (strcmp(str, "SPECIAL") == 0) return SPECIAL;
 	if (strcmp(str, "BANK") == 0) return BANK;
-	return -1;
+	return EMPTY;
 }
 
 bd init_game(int n, char **arr){
@@ -45,29 +45,29 @@ bd init_game(int n, char **arr){
 	for (int i=0; i < 40; i++){
 		fscanf(fp, " %[^,],%[^,],", typ, name);
 		strcpy(bord.s[i].name, name);
-		if (strcmp(typ, "START") == 0){
-			bord.s[i].type = START;
-			//puts("test if read");
-		}
-		if (strcmp(typ, "PROPERTY") == 0){
-			bord.s[i].type = PROPERTY;
+		bord.s[i].type = square_type(typ);
+		switch (bord.s[i].type){	
+			case PROPERTY:
 			fscanf(fp, " %i,%i,%[^,],", 
 				&bord.s[i].buyPrice, 
 				&bord.s[i].baseRent, 
 				name 
 				);
-			//bord.s[i].buyPrice = strtol(typ, NULL, 10);
-			//bord.s[i].baseRent = strtol(typ, NULL, 10);
+			bord.s[i].group = property_group(name);
+			default:
+			fscanf(fp, "%[^\n]\n", li);
 			//puts("test if read");
-			bord.s[i].group = property_group(name); 
 		}
-		puts(bord.s[i].name);
-		printf("BP:%i\tBR:%i, %i\n", bord.s[i].buyPrice, bord.s[i].baseRent, bord.s[i].group);
+	puts(bord.s[i].name);
+	printf("BP:%i\tBR:%i, %i\n", 
+			bord.s[i].buyPrice, 
+			bord.s[i].baseRent, 
+			bord.s[i].group
+		);
 		fscanf(fp, "%[^\n]\n", li);
 		puts(li);
 	}
 //	bord.s[0] = {0, "GO"};
-
 	return bord;
 }
 
