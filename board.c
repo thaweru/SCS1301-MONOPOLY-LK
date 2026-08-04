@@ -38,34 +38,31 @@ bd init_game(int n, char **arr){
 
 	bd bord;
 	FILE *fp = fopen("square_info.csv", "r");
-	char li[128];
-	char typ[12];
-	char name[42];
-	fscanf(fp, " %[^\n]", li);
+	//char li[128];
+	char typ[16];
+	char name[48];
+	fscanf(fp, " %*[^\n]");
 	for (int i=0; i < 40; i++){
 		fscanf(fp, " %[^,],%[^,],", typ, name);
-		strcpy(bord.s[i].name, name);
 		bord.s[i].type = square_type(typ);
-		switch (bord.s[i].type){	
+		strcpy(bord.s[i].name, name);
+		switch (bord.s[i].type){
 			case PROPERTY:
-			fscanf(fp, " %i,%i,%[^,],", 
+				fscanf(fp,"%d,%d,%15[^,],%d,%d\n",
 				&bord.s[i].buyPrice, 
 				&bord.s[i].baseRent, 
-				name 
+				typ, 
+				&bord.s[i].houseCost, 
+				&bord.s[i].hotelCost
 				);
-			bord.s[i].group = property_group(name);
+				bord.s[i].group = property_group(typ);
+				//puts(name);
+				break;
 			default:
-			fscanf(fp, "%[^\n]\n", li);
-			//puts("test if read");
+				fscanf(fp, "%*[^\n]\n");
+				//puts(typ);
+				break;
 		}
-	puts(bord.s[i].name);
-	printf("BP:%i\tBR:%i, %i\n", 
-			bord.s[i].buyPrice, 
-			bord.s[i].baseRent, 
-			bord.s[i].group
-		);
-		fscanf(fp, "%[^\n]\n", li);
-		puts(li);
 	}
 //	bord.s[0] = {0, "GO"};
 	return bord;
@@ -83,4 +80,6 @@ int dice(char *duble){
 }
 
 void start_game(){
+
 }
+
