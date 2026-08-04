@@ -2,9 +2,27 @@
 #include <stdlib.h>
 #include <time.h>
 
-int sqr_type_enum(char *str){
-	int type;
-	return type;
+sqrgrp property_group(char *str){
+	if (strcmp(str, "Brown")) return BROWN;
+	if (strcmp(str, "Light Blue")) return LIGHT_BLUE;
+	if (strcmp(str, "Pink")) return PINK;
+	if (strcmp(str, "Orange")) return ORANGE;
+	if (strcmp(str, "Red")) return RED;
+	if (strcmp(str, "Yellow")) return YELLOW;
+	if (strcmp(str, "Green")) return GREEN;
+	if (strcmp(str, "Dark Blue")) return DARK_BLUE;
+	return NONE;
+}
+
+sqrTyp square_type(char *str){
+	if (strcmp(str, "START") == 0) return START;
+	if (strcmp(str, "PROPERTY") == 0) return PROPERTY;
+	if (strcmp(str, "RAILWAY") == 0) return RAILWAY;
+	if (strcmp(str, "UTILITY") == 0) return UTILITY;
+	if (strcmp(str, "EVENT") == 0) return EVENT;
+	if (strcmp(str, "SPECIAL") == 0) return SPECIAL;
+	if (strcmp(str, "BANK") == 0) return BANK;
+	return -1;
 }
 
 bd init_game(int n, char **arr){
@@ -29,17 +47,22 @@ bd init_game(int n, char **arr){
 		strcpy(bord.s[i].name, name);
 		if (strcmp(typ, "START") == 0){
 			bord.s[i].type = START;
-			puts("test if read");
+			//puts("test if read");
 		}
 		if (strcmp(typ, "PROPERTY") == 0){
 			bord.s[i].type = PROPERTY;
-			fscanf(fp, "%[^,],", typ);
-			bord.s[i].buyPrice = strtol(typ, NULL, 10);
-			fscanf(fp, "%[^,],", typ);
-			bord.s[i].baseRent = strtol(typ, NULL, 10);
-			puts("test if read");
+			fscanf(fp, " %i,%i,%[^,],", 
+				&bord.s[i].buyPrice, 
+				&bord.s[i].baseRent, 
+				name 
+				);
+			//bord.s[i].buyPrice = strtol(typ, NULL, 10);
+			//bord.s[i].baseRent = strtol(typ, NULL, 10);
+			//puts("test if read");
+			bord.s[i].group = property_group(name); 
 		}
 		puts(bord.s[i].name);
+		printf("BP:%i\tBR:%i, %i\n", bord.s[i].buyPrice, bord.s[i].baseRent, bord.s[i].group);
 		fscanf(fp, "%[^\n]\n", li);
 		puts(li);
 	}

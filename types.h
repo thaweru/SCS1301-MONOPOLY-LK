@@ -22,10 +22,22 @@ typedef enum sqrType{
 	BANK
 } sqrTyp;
 
+typedef enum propertyGroup{
+	NONE = -1,
+	BROWN,
+	LIGHT_BLUE,
+	PINK,
+	ORANGE,
+	RED,
+	YELLOW,
+	GREEN,
+	DARK_BLUE,
+}sqrgrp;
+
 typedef struct Square{
 	sqrTyp type;
 	char name[42];
-	char group;
+	sqrgrp group;
 	int buyPrice;
 	int baseRent;
 	int houseCost;
