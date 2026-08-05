@@ -83,23 +83,46 @@ void start_game(plyr *plyrs, int n){
 	struct keyval{
 		plyr a;
 		int k;
+		char same;
 	} p[n], tmp;
-	char a;
+	char d;
 	for (int i=0; i < n; i++){
 		p[i].a = spawn_player(i);
-		p[i].k = dice(&a);
+		p[i].k = dice(&d);
 		printf("%s rolls %d\n", p[i].a.name, p[i].k);
+		//puts(p[i].a.name);
+		p[i].same = 0;
 	}
 	//bubble sort
-	for (int i=0; i < n; i++){
-		for (int j=0; j < (n-1); j++){
+	int a=0, b=n, f, e;
+resort:
+	for (int i=a; i < b; i++){
+		for (int j=a; j < (b-1); j++){
 			if(p[j].k < p[j+1].k){
 				tmp = p[j];
 				p[j] = p[j+1];
-				p[j+1] = p[j];
+				p[j+1] = tmp;
+			}
+			if(p[j].k == p[j+1].k){	
+				p[j].same = 255;
+				p[j+1].same = 255;
 			}
 		}
 	}
+	puts("");
+	f = b; e = a;
+	for (int i=a; i < b; i++){
+		//puts(p[i].a.name);
+		if (p[i].same){
+			p[i].k = dice(&d);
+			p[i].same = 0;
+			printf("%s re-rolls %d\n", p[i].a.name, p[i].k);
+			if (i < f) f = i;
+			if (i > e) e = i;
+		}
+	}
+	if ((f!=b)||(e!=a)){ a = f; b = e; goto resort; }
+	printf("|---current play order---|\n"); for (int i=0; i < n; i++) printf("%s\n", p[i].a.name); puts("");
 	printf("%s will begin the game\n", p[0].a.name);
 }
 

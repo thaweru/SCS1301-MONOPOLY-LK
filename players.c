@@ -14,7 +14,7 @@ plyr spawn_player(char n){
 		case 2:
 		strcpy(p.name, "Risk Taker");
 		break;
-		case 4:
+		case 3:
 		strcpy(p.name, "Opportunistic Trader");
 		break;
 	}
