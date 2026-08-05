@@ -54,4 +54,5 @@ typedef struct Board{
 int dice(char *duble);
 bd init_game(int n, char **arr);
 void start_game();
+plyr spawn_player(char n);
 #endif
