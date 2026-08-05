@@ -79,7 +79,27 @@ int dice(char *duble){
 	return a+b;
 }
 
-void start_game(){
-
+void start_game(plyr *plyrs, int n){
+	struct keyval{
+		plyr a;
+		int k;
+	} p[n], tmp;
+	char a;
+	for (int i=0; i < n; i++){
+		p[i].a = spawn_player(i);
+		p[i].k = dice(&a);
+		printf("%s rolls %d\n", p[i].a.name, p[i].k);
+	}
+	//bubble sort
+	for (int i=0; i < n; i++){
+		for (int j=0; j < (n-1); j++){
+			if(p[j].k < p[j+1].k){
+				tmp = p[j];
+				p[j] = p[j+1];
+				p[j+1] = p[j];
+			}
+		}
+	}
+	printf("%s will begin the game\n", p[0].a.name);
 }
 

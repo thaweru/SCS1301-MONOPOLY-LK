@@ -4,14 +4,14 @@
 
 plyr spawn_player(char n){
 	plyr p;
-	switch (n){
-		case 1:
+	switch (n%4){
+		case 0:
 		strcpy(p.name, "Aggressive Investor");
 		break;
-		case 2:
+		case 1:
 		strcpy(p.name, "Conservative Banker");
 		break;
-		case 3:
+		case 2:
 		strcpy(p.name, "Risk Taker");
 		break;
 		case 4:

@@ -6,9 +6,9 @@ typedef struct Player{
 	char name[24];
 	char strategy;
 	int cash;
-	int position;
+	char pos;
 	char InJail;
-	int jailTurns;
+	char jailTurns;
 //	struct Loan;
 } plyr;
 
@@ -53,6 +53,6 @@ typedef struct Board{
 
 int dice(char *duble);
 bd init_game(int n, char **arr);
-void start_game();
+void start_game(plyr *plyrs, int n);
 plyr spawn_player(char n);
 #endif
