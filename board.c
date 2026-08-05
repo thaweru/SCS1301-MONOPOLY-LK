@@ -90,10 +90,14 @@ void start_game(plyr *plyrs, int n, int cash){
 		p[i].a = spawn_player(i);
 		p[i].a.cash = cash;
 		p[i].k = dice(&d);
-		printf("%s rolls %d\n", p[i].a.name, p[i].k);
-		//puts(p[i].a.name);
+		//printf("%s rolls %d\n", p[i].a.name, p[i].k);
 		p[i].same = 0;
 	}
+
+	for (int i=0; i < n; i++) printf("Player %d : %s\n", i+1,  p[i].a.name);
+	printf("\nEach player begins with LKR %'d\n\n", cash);
+	for (int i=0; i < n; i++) printf("%s rolls %d\n", p[i].a.name, p[i].k);
+
 	//bubble sort
 	int a=0, b=n, f, e;
 resort:
@@ -110,7 +114,6 @@ resort:
 			}
 		}
 	}
-	puts("");
 	f = b; e = a;
 	for (int i=a; i < b; i++){
 		//puts(p[i].a.name);
@@ -123,12 +126,12 @@ resort:
 		}
 	}
 	if ((f!=b)||(e!=a)){ a = f; b = e; goto resort; }
-	printf("|---current play order---|\n");
+	puts("");
+	printf("%s will begin the game\n", p[0].a.name);
+	puts("\nTurn order:");
 	for (int i=0; i < n; i++){
 		printf("%s\n", p[i].a.name);
 		*(plyrs+i) = p[i].a;
 	}
-	puts("");
-	printf("%s will begin the game\n", p[0].a.name);
 }
 
