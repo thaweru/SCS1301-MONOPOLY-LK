@@ -79,7 +79,7 @@ int dice(char *duble){
 	return a+b;
 }
 
-void start_game(plyr *plyrs, int n){
+void start_game(plyr *plyrs, int n, int cash){
 	struct keyval{
 		plyr a;
 		int k;
@@ -88,6 +88,7 @@ void start_game(plyr *plyrs, int n){
 	char d;
 	for (int i=0; i < n; i++){
 		p[i].a = spawn_player(i);
+		p[i].a.cash = cash;
 		p[i].k = dice(&d);
 		printf("%s rolls %d\n", p[i].a.name, p[i].k);
 		//puts(p[i].a.name);

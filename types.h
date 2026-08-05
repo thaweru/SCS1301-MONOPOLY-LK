@@ -53,6 +53,6 @@ typedef struct Board{
 
 int dice(char *duble);
 bd init_game(int n, char **arr);
-void start_game(plyr *plyrs, int n);
+void start_game(plyr *plyrs, int n, int cash);
 plyr spawn_player(char n);
 #endif
