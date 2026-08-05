@@ -123,7 +123,12 @@ resort:
 		}
 	}
 	if ((f!=b)||(e!=a)){ a = f; b = e; goto resort; }
-	printf("|---current play order---|\n"); for (int i=0; i < n; i++) printf("%s\n", p[i].a.name); puts("");
+	printf("|---current play order---|\n");
+	for (int i=0; i < n; i++){
+		printf("%s\n", p[i].a.name);
+		*(plyrs+i) = p[i].a;
+	}
+	puts("");
 	printf("%s will begin the game\n", p[0].a.name);
 }
 
