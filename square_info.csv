@@ -4,17 +4,17 @@ PROPERTY,Pettah,1500,100,Brown,500,2000
 EVENT,Community Development Fund,,,,,
 PROPERTY,Maradana,1800,120,Brown,500,2000
 TAX,Income Tax,,,,,
-RAILWAY,Colombo Fort Railway Station,,,,,
+RAILWAY,Colombo Fort Railway Station,1500,,,,
 PROPERTY,Bambalapitiya,2500,180,Light Blue,750,3000
 EVENT,National Event Card,,,,,
 PROPERTY,Wellawatte,2700,200,Light Blue,750,3000
 PROPERTY,Mount Lavinia,3000,220,Light Blue,750,3000
 SPECIAL,Jail / Just Visiting,,,,,
 PROPERTY,Nugegoda,3500,260,Pink,1000,4000
-UTILITY,Ceylon Electricity Board,,,,,
+UTILITY,Ceylon Electricity Board,1500,,,,
 PROPERTY,Maharagama,3800,280,Pink,1000,4000
 PROPERTY,Kottawa,4000,300,Pink,1000,4000
-RAILWAY,Kandy Railway Station,,,,,
+RAILWAY,Kandy Railway Station,1500,,,,
 PROPERTY,Negombo,4500,350,Orange,1250,5000
 INSURANCE,Sri Lanka Insurance,,,,,
 PROPERTY,Katunayake,4700,370,Orange,1250,5000
@@ -24,17 +24,17 @@ PROPERTY,Kandy City,5500,450,Red,1500,6000
 EVENT,National Event Card,,,,,
 PROPERTY,Peradeniya,5800,480,Red,1500,6000
 PROPERTY,Katugastota,6000,500,Red,1500,6000
-RAILWAY,Galle Railway Station,,,,,
+RAILWAY,Galle Railway Station,1500,,,,
 PROPERTY,Galle Fort,6500,600,Yellow,2000,8000
 PROPERTY,Unawatuna,6800,620,Yellow,2000,8000
-UTILITY,National Water Supply and Drainage Board,,,,,
+UTILITY,National Water Supply and Drainage Board,1500,,,,
 PROPERTY,Hikkaduwa,7000,650,Yellow,2000,8000
 SPECIAL,Go To Jail,,,,,
 PROPERTY,Jaffna Town,8000,750,Green,2500,10000
 PROPERTY,Nallur,8300,780,Green,2500,10000
 INSURANCE,Ceylinco Insurance,,,,,
 PROPERTY,Trincomalee,8500,800,Green,2500,10000
-RAILWAY,Jaffna Railway Station,,,,,
+RAILWAY,Jaffna Railway Station,1500,,,,
 EVENT,National Event Card,,,,,
 PROPERTY,Nuwara Eliya,10000,1000,Dark Blue,3000,12000
 BANK,Bank of Ceylon,,,,,
