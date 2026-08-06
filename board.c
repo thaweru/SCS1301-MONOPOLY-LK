@@ -58,6 +58,14 @@ bd init_game(int n, char **arr){
 				bord.s[i].group = property_group(typ);
 				//puts(name);
 				break;
+			case RAILWAY:
+				fscanf(fp,"%d,%*[^\n]\n", &bord.s[i].buyPrice);
+				bord.s[i].group = property_group(typ);
+				break;
+			case UTILITY:
+				fscanf(fp,"%d,%*[^\n]\n", &bord.s[i].buyPrice);
+				bord.s[i].group = property_group(typ);
+				break;
 			default:
 				fscanf(fp, "%*[^\n]\n");
 				//puts(typ);
