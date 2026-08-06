@@ -1,19 +1,14 @@
 #include "types.h"
 #include <stdio.h>
+#define MAX_ROUNDS 25
+#define PLAYERS 4
 
 int main(int argc, char *argv[]){
 	puts("MONOPOLY-LK Simulation");
-	plyr player[4];
+	plyr player[PLAYERS];
 	bd board = init_game(argc, argv);
 	puts("");
-	int currRound = 0;
-	start_game(player, 4, 30000);
-	char duble;
-	while ((currRound < 500)){
-		for (int i=0; i < 4; i++){
-
-		}
-		currRound++;
-	}
+	start_game(player, PLAYERS, 30000);
+	run_game(player , MAX_ROUNDS, PLAYERS, board);
 //	for (int i=0; i < 24; i++) printf("%i, duble = %i\n", dice(&duble), duble);
 }
