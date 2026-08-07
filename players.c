@@ -20,3 +20,17 @@ plyr spawn_player(char n){
 	}
 	return p;
 }
+
+int canBuy(plyr *p, sqr *s){
+	if (p->cash > s->baseRent){
+		switch (s->type){
+			case PROPERTY:
+			case RAILWAY:
+			case UTILITY:
+				return 1;
+				break;
+			default: break;
+		}
+	}
+	return 0;
+}
