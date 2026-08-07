@@ -56,4 +56,5 @@ bd init_game(int n, char **arr);
 void start_game(plyr *plyrs, int n, int cash);
 plyr spawn_player(char n);
 void run_game(plyr *P, int N, int n, bd bord);
+void landing_action(plyr *p, sqr *s);
 #endif

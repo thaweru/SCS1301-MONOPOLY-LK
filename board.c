@@ -46,6 +46,7 @@ bd init_game(int n, char **arr){
 		fscanf(fp, " %[^,],%[^,],", typ, name);
 		bord.s[i].type = square_type(typ);
 		strcpy(bord.s[i].name, name);
+		bord.s[i].owner = NULL;
 		switch (bord.s[i].type){
 			case PROPERTY:
 				fscanf(fp,"%d,%d,%15[^,],%d,%d\n",

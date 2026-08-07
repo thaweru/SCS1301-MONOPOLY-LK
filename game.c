@@ -1,5 +1,6 @@
 #include "types.h"
 #include "stdio.h"
+#define PASS_GO_CASH 2000
 
 void run_game(plyr *P, int N, int n, bd bord){
 	int currRound = 0;
@@ -14,15 +15,22 @@ void run_game(plyr *P, int N, int n, bd bord){
 			printf("%s moves from Square %i to Square %i\n",
 				P[i].name, prev, (P[i].pos%40)
 				);
-			if (P[i].pos > 40){
-				P[i].cash += 2000;
-				printf("%s passed GO.\nCollected LKR 2,000.\nCurrent Balance : LKR %d.\n",
-					P[i].name, P[i].cash
-				);
-			P[i].pos = P[i].pos % 40;
-			puts("\n");
-			}
+			landing_action(&P[i], &bord.s[P[i].pos%40]);
+			puts("");
 		}
 		currRound++;
 	}
+}
+
+void landing_action(plyr *p, sqr *s){
+	if (p->pos > 40){
+		p->pos = p->pos % 40;
+		p->cash += PASS_GO_CASH;
+		printf("%s passed GO.\nCollected LKR %i.\nCurrent Balance : LKR %d.\n", 
+			p->name, PASS_GO_CASH, p->cash);
+			}
+	if (s->owner != NULL){
+		
+	}
+
 }
