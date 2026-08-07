@@ -30,7 +30,15 @@ void landing_action(plyr *p, sqr *s){
 			p->name, PASS_GO_CASH, p->cash);
 			}
 	if (s->owner != NULL){
-		
+		p->cash -= s->baseRent;
+		s->owner->cash += s->baseRent;
+		printf("%s landed on %s\nRent paid : LKR %d\nOwner : %s\n",
+			p->name, s->name, s->baseRent, s->owner->name);
 	}
-
+	if (s->owner == NULL){
+		p->cash -= s->buyPrice;
+		s->owner = p;
+		printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
+			p->name, s->name, s->buyPrice, p->cash);
+	}
 }

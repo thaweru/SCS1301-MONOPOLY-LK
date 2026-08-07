@@ -1,4 +1,9 @@
 monopoly
 monopoly.exe
 types.h.gch
-.square_info.csv.swp
+
+# Vim temporary swap files
+*.swp
+*.swo
+*.swn
+.*.swp
