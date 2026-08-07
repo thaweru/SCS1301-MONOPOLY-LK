@@ -38,7 +38,7 @@ void landing_action(plyr *p, sqr *s, int roll){
 				rentdue = s->baseRent;
 				break;
 			case RAILWAY:
-				switch (s->owner->railutil%5){
+				switch (s->owner->railutil%16){
 					case 1: rentdue = 250; break;
 					case 2: rentdue = 500; break;
 					case 3: rentdue = 1000; break;
@@ -46,7 +46,7 @@ void landing_action(plyr *p, sqr *s, int roll){
 				}
 				break;
 			case UTILITY:
-				switch (s->owner->railutil/5){
+				switch (s->owner->railutil/16){
 					case 1: rentdue = 4 * roll;
 					case 2: rentdue = 10 * roll;
 				}
@@ -63,6 +63,11 @@ void landing_action(plyr *p, sqr *s, int roll){
 	if ((s->owner == NULL)&&(canBuy(p, s))){
 		p->cash -= s->buyPrice;
 		s->owner = p;
+		switch (s->type){
+			case RAILWAY: p->railutil++; break;
+			case UTILITY: p->railutil += 16; break;
+			default: break;
+		}
 		printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
 			p->name, s->name, s->buyPrice, p->cash);
 	}
