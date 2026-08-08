@@ -27,6 +27,7 @@ sqrTyp square_type(char *str){
 	if (strcmp(str, "SPECIAL") == 0) return SPECIAL;
 	if (strcmp(str, "INSURANCE") == 0) return INSURANCE;
 	if (strcmp(str, "BANK") == 0) return BANK;
+	if (strcmp(str, "TAX") == 0) return TAX;
 	return EMPTY;
 }
 

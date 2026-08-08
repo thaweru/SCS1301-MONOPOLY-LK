@@ -21,7 +21,8 @@ typedef enum sqrType{
 	EVENT,
 	SPECIAL,
 	INSURANCE,
-	BANK
+	BANK,
+    TAX
 } sqrTyp;
 
 typedef enum propertyGroup{
