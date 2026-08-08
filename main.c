@@ -1,6 +1,6 @@
 #include "types.h"
 #include <stdio.h>
-#define MAX_ROUNDS 8
+#define MAX_ROUNDS 1
 #define PLAYERS 4
 
 int main(int argc, char *argv[]){

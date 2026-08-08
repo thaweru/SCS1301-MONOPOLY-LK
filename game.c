@@ -8,7 +8,7 @@ void run_game(plyr *P, int N, int n, bd bord){
 	short int rolled, prev;
 	while ((currRound < N)){
 		for (int i=0; i < n; i++){
-			rolled = dice(&duble);
+			rolled = 1; //dice(&duble);
 			printf("%s rolled %i\n", P[i].name, rolled);
 			if (P[i].InJail == 0){
 				prev = P[i].pos;
@@ -55,8 +55,8 @@ void landing_action(plyr *p, sqr *s, int roll){
 				break;
 			case UTILITY:
 				switch (s->owner->railutil/16){
-					case 1: rentdue = 4 * roll;
-					case 2: rentdue = 10 * roll;
+					case 1: rentdue = 4 * roll; break;
+					case 2: rentdue = 10 * roll; break;
 				}
 			default: break;
 		}
@@ -65,6 +65,23 @@ void landing_action(plyr *p, sqr *s, int roll){
 			s->owner->cash += rentdue;
 			printf("Rent paid : LKR %d\nOwner : %s\n",
 				rentdue, s->owner->name);
+		}
+		switch (s->group){
+			case GO_TO_JAIL:
+				printf("%s is immidiately transferred to Jail\n", p->name);
+				p->InJail = 1;
+				p->pos = 10;
+				break;
+			case JAIL:
+				if ((p->InJail > 3)&&(p->InJail != 0)){
+					p->InJail = 0;
+					printf("%s is released from Jail\n", p->name);
+				}else{
+					p->InJail++;
+					printf("%s is in Jail\n", p->name);
+				}
+			default: break;
+
 		}
 	}
 	//Buy the square when no one owns it

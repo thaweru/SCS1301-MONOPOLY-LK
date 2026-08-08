@@ -13,7 +13,6 @@ typedef struct Player{
 } plyr;
 
 typedef enum sqrType{
-	EMPTY = -1,
 	START,
 	PROPERTY,
 	RAILWAY,
@@ -21,11 +20,11 @@ typedef enum sqrType{
 	EVENT,
 	SPECIAL,
 	INSURANCE,
-	BANK
+	BANK,
+	EMPTY = -1
 } sqrTyp;
 
 typedef enum propertyGroup{
-	NONE = -1,
 	BROWN,
 	LIGHT_BLUE,
 	PINK,
@@ -34,10 +33,11 @@ typedef enum propertyGroup{
 	YELLOW,
 	GREEN,
 	DARK_BLUE,
-	JAIL,
+	JAIL = 10,
 	GO_TO_JAIL,
 	EVENT_CARD,
-	CD_FUND
+	CD_FUND,
+	NONE = -1
 }sqrgrp;
 
 typedef struct Square{
