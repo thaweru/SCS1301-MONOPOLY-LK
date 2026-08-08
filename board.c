@@ -3,18 +3,18 @@
 #include <time.h>
 
 sqrgrp property_group(char *str){
-	if (strcmp(str, "Brown")) return BROWN;
-	if (strcmp(str, "Light Blue")) return LIGHT_BLUE;
-	if (strcmp(str, "Pink")) return PINK;
-	if (strcmp(str, "Orange")) return ORANGE;
-	if (strcmp(str, "Red")) return RED;
-	if (strcmp(str, "Yellow")) return YELLOW;
-	if (strcmp(str, "Green")) return GREEN;
-	if (strcmp(str, "Dark Blue")) return DARK_BLUE;
-	if (strcmp(str, "Jail / Just Visiting")) return JAIL;
-	if (strcmp(str, "Go To Jail")) return GO_TO_JAIL;
-	if (strcmp(str, "National Event Card")) return EVENT_CARD;
-	if (strcmp(str, "Community Development Fund")) return CD_FUND;
+	if (strcmp(str, "Brown") == 0) return BROWN;
+	if (strcmp(str, "Light Blue") == 0) return LIGHT_BLUE;
+	if (strcmp(str, "Pink") == 0) return PINK;
+	if (strcmp(str, "Orange") == 0) return ORANGE;
+	if (strcmp(str, "Red") == 0) return RED;
+	if (strcmp(str, "Yellow") == 0) return YELLOW;
+	if (strcmp(str, "Green") == 0) return GREEN;
+	if (strcmp(str, "Dark Blue") == 0) return DARK_BLUE;
+	if (strcmp(str, "Jail / Just Visiting") == 0) return JAIL;
+	if (strcmp(str, "Go To Jail") == 0) return GO_TO_JAIL;
+	if (strcmp(str, "National Event Card") == 0) return EVENT_CARD;
+	if (strcmp(str, "Community Development Fund") == 0) return CD_FUND;
 	return NONE;
 }
 
