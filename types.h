@@ -8,7 +8,6 @@ typedef struct Player{
 	int cash;
 	char pos;
 	char InJail;
-	char jailTurns;
 	char railutil;
 //	struct Loan;
 } plyr;
@@ -21,6 +20,7 @@ typedef enum sqrType{
 	UTILITY,
 	EVENT,
 	SPECIAL,
+	INSURANCE,
 	BANK
 } sqrTyp;
 
@@ -34,6 +34,10 @@ typedef enum propertyGroup{
 	YELLOW,
 	GREEN,
 	DARK_BLUE,
+	JAIL,
+	GO_TO_JAIL,
+	EVENT_CARD,
+	CD_FUND
 }sqrgrp;
 
 typedef struct Square{

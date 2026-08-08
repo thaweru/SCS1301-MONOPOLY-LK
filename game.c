@@ -10,12 +10,19 @@ void run_game(plyr *P, int N, int n, bd bord){
 		for (int i=0; i < n; i++){
 			rolled = dice(&duble);
 			printf("%s rolled %i\n", P[i].name, rolled);
-			prev = P[i].pos;
-			P[i].pos += rolled;
-			printf("%s moves from Square %i to Square %i\n",
+			if (P[i].InJail == 0){
+				prev = P[i].pos;
+				P[i].pos += rolled;
+				printf("%s moves from Square %i to Square %i\n",
 				P[i].name, prev, (P[i].pos%40)
 				);
-			landing_action(&P[i], &bord.s[P[i].pos%40], rolled);
+				landing_action(&P[i], &bord.s[P[i].pos%40], rolled);
+			}else{
+				if (duble == 1){
+					printf("%s rolled doubles. Released from jail.\n", P[i].name);
+					P[i].InJail = 0;
+				}
+			}
 			puts("");
 		}
 		currRound++;

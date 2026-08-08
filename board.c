@@ -11,6 +11,10 @@ sqrgrp property_group(char *str){
 	if (strcmp(str, "Yellow")) return YELLOW;
 	if (strcmp(str, "Green")) return GREEN;
 	if (strcmp(str, "Dark Blue")) return DARK_BLUE;
+	if (strcmp(str, "Jail / Just Visiting")) return JAIL;
+	if (strcmp(str, "Go To Jail")) return GO_TO_JAIL;
+	if (strcmp(str, "National Event Card")) return EVENT_CARD;
+	if (strcmp(str, "Community Development Fund")) return CD_FUND;
 	return NONE;
 }
 
@@ -21,6 +25,7 @@ sqrTyp square_type(char *str){
 	if (strcmp(str, "UTILITY") == 0) return UTILITY;
 	if (strcmp(str, "EVENT") == 0) return EVENT;
 	if (strcmp(str, "SPECIAL") == 0) return SPECIAL;
+	if (strcmp(str, "INSURANCE") == 0) return INSURANCE;
 	if (strcmp(str, "BANK") == 0) return BANK;
 	return EMPTY;
 }
@@ -69,6 +74,7 @@ bd init_game(int n, char **arr){
 				break;
 			default:
 				fscanf(fp, "%*[^\n]\n");
+				bord.s[i].group = property_group(name);
 				//puts(typ);
 				break;
 		}
