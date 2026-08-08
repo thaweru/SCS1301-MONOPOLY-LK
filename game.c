@@ -21,10 +21,19 @@ void run_game(plyr *P, int N, int n, bd bord){
 				if (duble == 1){
 					printf("%s rolled doubles. Released from jail.\n", P[i].name);
 					P[i].InJail = 0;
-				}
+				}else{
+                    printf("%s is in Jail\n", P[i].name);
+                }
 			}
 			puts("");
 		}
+        printf("=============================================\n");
+        printf("Round %d Summery\n", currRound+1);
+        printf("=============================================\n");
+        for (int i=0; i < n; i++){
+            printf("%s\nCash : %d\n", P[i].name, P[i].cash);
+            printf("---------------------------------------------\n");
+        }
 		currRound++;
 	}
 }
