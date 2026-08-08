@@ -66,6 +66,7 @@ void landing_action(plyr *p, sqr *s, int roll){
 			printf("Rent paid : LKR %d\nOwner : %s\n",
 				rentdue, s->owner->name);
 		}
+	}
 		switch (s->group){
 			case GO_TO_JAIL:
 				printf("%s is immidiately transferred to Jail\n", p->name);
@@ -83,7 +84,6 @@ void landing_action(plyr *p, sqr *s, int roll){
 			default: break;
 
 		}
-	}
 	//Buy the square when no one owns it
 	if ((s->owner == NULL)&&(canBuy(p, s))){
 		p->cash -= s->buyPrice;
