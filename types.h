@@ -64,4 +64,5 @@ plyr spawn_player(char n);
 void run_game(plyr *P, int N, int n, bd bord);
 void landing_action(plyr *p, sqr *s, int roll);
 int canBuy(plyr *p, sqr *s);
+int net_worth(plyr *p);
 #endif
