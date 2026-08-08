@@ -24,13 +24,14 @@ void run_game(plyr *P, int N, int n, bd bord){
 
 void landing_action(plyr *p, sqr *s, int roll){
 	//Collect cash from passing GO
-	if (p->pos > 40){
+	if (p->pos >= 40){
 		p->pos = p->pos % 40;
 		p->cash += PASS_GO_CASH;
 		printf("%s passed GO.\nCollected LKR %i.\nCurrent Balance : LKR %d.\n", 
 			p->name, PASS_GO_CASH, p->cash);
 		}
 	//Pay rent to owner of square
+	printf("%s landed on %s\n", p->name, s->name);
 	if ((s->owner != NULL)&&(s->owner != p)){
 		int rentdue = 0;
 		switch (s->type){
@@ -55,8 +56,8 @@ void landing_action(plyr *p, sqr *s, int roll){
 		if (rentdue > 0){
 			p->cash -= rentdue;
 			s->owner->cash += rentdue;
-			printf("%s landed on %s\nRent paid : LKR %d\nOwner : %s\n",
-				p->name, s->name, rentdue, s->owner->name);
+			printf("Rent paid : LKR %d\nOwner : %s\n",
+				rentdue, s->owner->name);
 		}
 	}
 	//Buy the square when no one owns it
