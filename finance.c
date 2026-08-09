@@ -1,10 +1,10 @@
 #include "types.h"
 
-int net_worth(plyr *p, bd *bord){
+int net_worth(plyr *p, game *g){
     int worth = 0;
     for (int i =0; i < 40; i++){
-        if (bord->s[i].owner == p){
-            worth += bord->s[i].buyPrice;
+        if (g->square[i].owner == p){
+            worth += g->square[i].buyPrice;
         }
     }
     worth += p->cash;

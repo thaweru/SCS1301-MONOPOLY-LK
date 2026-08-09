@@ -2,7 +2,7 @@
 #include "stdio.h"
 #define PASS_GO_CASH 2000
 
-void run_game(plyr *P, int N, int n, bd bord){
+void run_game(plyr *P, int N, int n, game g){
 	int currRound = 0;
 	char duble;
 	short int rolled, prev;
@@ -16,7 +16,7 @@ void run_game(plyr *P, int N, int n, bd bord){
 				printf("%s moves from Square %i to Square %i\n",
 				P[i].name, prev, (P[i].pos%40)
 				);
-				landing_action(&P[i], &bord.s[P[i].pos%40], rolled);
+				landing_action(&P[i], &g.square[P[i].pos%40], rolled);
 			}else{
 				if (duble == 1){
 					printf("%s rolled doubles. Released from jail.\n", P[i].name);
@@ -32,7 +32,7 @@ void run_game(plyr *P, int N, int n, bd bord){
         printf("=============================================\n");
         for (int i=0; i < n; i++){
             printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
-            printf("Net Worth : %i\n", net_worth(&P[i], &bord));
+            printf("Net Worth : %i\n", net_worth(&P[i], &g));
             printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
             printf("---------------------------------------------\n");
         }

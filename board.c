@@ -31,7 +31,7 @@ sqrTyp square_type(char *str){
 	return EMPTY;
 }
 
-bd init_game(int n, char **arr){
+game init_game(int n, char **arr){
 	unsigned int seed;
 	if (n == 2){
 		char *str = arr[1];
@@ -42,7 +42,7 @@ bd init_game(int n, char **arr){
 	srand(seed);
 	printf("Seed : %u\n", seed);
 
-	bd bord;
+	game g;
 	FILE *fp = fopen("square_info.csv", "r");
 	//char li[128];
 	char typ[16];
@@ -50,38 +50,38 @@ bd init_game(int n, char **arr){
 	fscanf(fp, " %*[^\n]");
 	for (int i=0; i < 40; i++){
 		fscanf(fp, " %[^,],%[^,],", typ, name);
-		bord.s[i].type = square_type(typ);
-		strcpy(bord.s[i].name, name);
-		bord.s[i].owner = NULL;
-		switch (bord.s[i].type){
+		g.square[i].type = square_type(typ);
+        strcpy(g.square[i].name, name);
+		g.square[i].owner = NULL;
+		switch (g.square[i].type){
 			case PROPERTY:
 				fscanf(fp,"%d,%d,%15[^,],%d,%d\n",
-				&bord.s[i].buyPrice, 
-				&bord.s[i].baseRent, 
+				&g.square[i].buyPrice, 
+				&g.square[i].baseRent, 
 				typ, 
-				&bord.s[i].houseCost, 
-				&bord.s[i].hotelCost
+				&g.square[i].houseCost, 
+				&g.square[i].hotelCost
 				);
-				bord.s[i].group = property_group(typ);
+				g.square[i].group = property_group(typ);
 				//puts(name);
 				break;
 			case RAILWAY:
-				fscanf(fp,"%d,%*[^\n]\n", &bord.s[i].buyPrice);
-				bord.s[i].group = property_group(typ);
+				fscanf(fp,"%d,%*[^\n]\n", &g.square[i].buyPrice);
+				g.square[i].group = property_group(typ);
 				break;
 			case UTILITY:
-				fscanf(fp,"%d,%*[^\n]\n", &bord.s[i].buyPrice);
-				bord.s[i].group = property_group(typ);
+				fscanf(fp,"%d,%*[^\n]\n", &g.square[i].buyPrice);
+				g.square[i].group = property_group(typ);
 				break;
 			default:
 				fscanf(fp, "%*[^\n]\n");
-				bord.s[i].group = property_group(name);
+				g.square[i].group = property_group(name);
 				//puts(typ);
 				break;
 		}
 	}
-//	bord.s[0] = {0, "GO"};
-	return bord;
+//	g.square[0] = {0, "GO"};
+	return g;
 }
 
 int dice(char *duble){
