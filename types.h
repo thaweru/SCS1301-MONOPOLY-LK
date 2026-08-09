@@ -89,7 +89,7 @@ int dice(char *duble);
 game init_game(int n, char **arr);
 void start_game(plyr *plyrs, int n, int cash);
 plyr spawn_player(char n);
-void run_game(plyr *P, int N, int n, game g);
+void run_game(int N, int n, game g);
 void landing_action(plyr *p, sqr *s, int roll);
 int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p, game *g);

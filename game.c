@@ -2,7 +2,8 @@
 #include "stdio.h"
 #define PASS_GO_CASH 2000
 
-void run_game(plyr *P, int N, int n, game g){
+void run_game(int N, int n, game g){
+    plyr *P = g.player;
 	int currRound = 0;
 	char duble;
 	short int rolled, prev;
