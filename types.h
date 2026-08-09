@@ -9,6 +9,7 @@ typedef struct Player{
 	char pos;
 	char InJail;
 	char railutil;
+    char properties;
 //	struct Loan;
 } plyr;
 
