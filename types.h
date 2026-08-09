@@ -5,6 +5,7 @@
 #define MAX_ROUNDS 500
 #define SQUARES 40
 #define START_CASH 30000
+#define BID_INCREMENT 250
 
 //Player attributes
 typedef struct Player{
@@ -85,12 +86,19 @@ typedef struct Game{
     econ econState;
 } game;
 
+typedef struct HighBid{
+    int value;
+    plyr *bidder;
+}bid;
+
 int dice(char *duble);
 game init_game(int n, char **arr);
 void start_game(plyr *plyrs, int n, int cash);
 plyr spawn_player(char n);
 void run_game(int N, int n, game g);
-void landing_action(plyr *p, sqr *s, int roll);
+void landing_action(plyr *p, sqr *s, int roll, game *g);
 int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p, game *g);
+void auction(sqr *s, game *g);
+int auction_bid(bid highbid, sqr s, plyr *p);
 #endif

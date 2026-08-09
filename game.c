@@ -4,10 +4,10 @@
 
 void run_game(int N, int n, game g){
     plyr *P = g.player;
-	int currRound = 0;
+	g.currRound = 0;
 	char duble;
 	short int rolled, prev;
-	while ((currRound < N)){
+	while ((g.currRound < N)){
 		for (int i=0; i < n; i++){
 			rolled = dice(&duble);
 			printf("%s rolled %i\n", P[i].name, rolled);
@@ -17,7 +17,7 @@ void run_game(int N, int n, game g){
 				printf("%s moves from Square %i to Square %i\n",
 				P[i].name, prev, (P[i].pos%40)
 				);
-				landing_action(&P[i], &g.square[P[i].pos%40], rolled);
+				landing_action(&P[i], &g.square[P[i].pos%40], rolled, &g);
 			}else{
 				if (duble == 1){
 					printf("%s rolled doubles. Released from jail.\n", P[i].name);
@@ -29,19 +29,19 @@ void run_game(int N, int n, game g){
 			puts("");
 		}
         printf("=============================================\n");
-        printf("Round %d Summery\n", currRound+1);
+        printf("Round %d Summery\n", g.currRound+1);
         printf("=============================================\n");
         for (int i=0; i < n; i++){
             printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
-            printf("Net Worth : %i\n", net_worth(&P[i], &g));
+            printf("Net Worth : LKR %i\n", net_worth(&P[i], &g));
             printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
             printf("---------------------------------------------\n");
         }
-		currRound++;
+		g.currRound++;
 	}
 }
 
-void landing_action(plyr *p, sqr *s, int roll){
+void landing_action(plyr *p, sqr *s, int roll, game *g){
 	//Collect cash from passing GO
 	if (p->pos >= 40){
 		p->pos = p->pos % 40;
@@ -108,5 +108,15 @@ void landing_action(plyr *p, sqr *s, int roll){
 		}
 		printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
 			p->name, s->name, s->buyPrice, p->cash);
-	}
+	}else{
+        auction(s, g);
+    }
+}
+
+void auction(sqr *s, game *g){
+    bid highbid = {s->buyPrice/2, NULL};
+    printf("Auction started.\nProperty : %s\nOpening bid : LKR %d\n", s->name, highbid.value);
+    for (int i=0; i < PLAYERS; i++){
+        highbid.value = auction_bid(highbid, *s, &g->player[i]);
+    }
 }

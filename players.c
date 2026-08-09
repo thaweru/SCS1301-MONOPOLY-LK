@@ -34,3 +34,9 @@ int canBuy(plyr *p, sqr *s){
 	}
 	return 0;
 }
+
+int auction_bid(bid highbid, sqr s, plyr *p){
+    if ((highbid.bidder != p)&&(highbid.value < s.buyPrice)){
+        return highbid.value + BID_INCREMENT;
+    }
+}
