@@ -32,6 +32,7 @@ void run_game(plyr *P, int N, int n, bd bord){
         printf("=============================================\n");
         for (int i=0; i < n; i++){
             printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
+            printf("Net Worth : %i\n", net_worth(&P[i], &bord));
             printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
             printf("---------------------------------------------\n");
         }

@@ -2,7 +2,7 @@
 #define TYPES_H
 
 #define PLAYERS 4
-#define MAX_ROUNDS 5
+#define MAX_ROUNDS 500
 
 //Player attributes
 typedef struct Player{
@@ -15,6 +15,13 @@ typedef struct Player{
     char properties;
 //	struct Loan;
 } plyr;
+
+typedef enum plyrstrat{
+    PURCHASE,
+    AUCTION,
+    LOANS,
+    INSUARANCE
+} plyrstrat;
 
 typedef enum sqrType{
 	EMPTY = -1,
@@ -68,5 +75,5 @@ plyr spawn_player(char n);
 void run_game(plyr *P, int N, int n, bd bord);
 void landing_action(plyr *p, sqr *s, int roll);
 int canBuy(plyr *p, sqr *s);
-int net_worth(plyr *p);
+int net_worth(plyr *p, bd *bord);
 #endif
