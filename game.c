@@ -32,6 +32,7 @@ void run_game(plyr *P, int N, int n, bd bord){
         printf("=============================================\n");
         for (int i=0; i < n; i++){
             printf("%s\nCash : %d\n", P[i].name, P[i].cash);
+            printf("Proprties : %d", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16));
             printf("---------------------------------------------\n");
         }
 		currRound++;
@@ -98,6 +99,7 @@ void landing_action(plyr *p, sqr *s, int roll){
 		p->cash -= s->buyPrice;
 		s->owner = p;
 		switch (s->type){
+            case PROPERTY: p->properties++; break;
 			case RAILWAY: p->railutil++; break;
 			case UTILITY: p->railutil += 16; break;
 			default: break;
