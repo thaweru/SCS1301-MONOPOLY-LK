@@ -31,8 +31,8 @@ void run_game(plyr *P, int N, int n, bd bord){
         printf("Round %d Summery\n", currRound+1);
         printf("=============================================\n");
         for (int i=0; i < n; i++){
-            printf("%s\nCash : %d\n", P[i].name, P[i].cash);
-            printf("Proprties : %d", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16));
+            printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
+            printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
             printf("---------------------------------------------\n");
         }
 		currRound++;

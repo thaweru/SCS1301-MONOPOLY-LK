@@ -1,6 +1,9 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#define PLAYERS 4
+#define MAX_ROUNDS 5
+
 //Player attributes
 typedef struct Player{
 	char name[24];
