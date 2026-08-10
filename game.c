@@ -114,9 +114,18 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 }
 
 void auction(sqr *s, game *g){
-    bid highbid = {s->buyPrice/2, NULL};
-    printf("Auction started.\nProperty : %s\nOpening bid : LKR %d\n", s->name, highbid.value);
+    char active[PLAYERS], count = 0, bidPlaced = 1;
+    int currentBid = s->buyPrice/2;
+    plyr *highbid = NULL;
+    printf("Auction started.\nProperty : %s\nOpening bid : LKR %d\n\n",
+            s->name, currentBid);
     for (int i=0; i < PLAYERS; i++){
-        highbid.value = auction_bid(highbid, *s, &g->player[i]);
+        if (bankrupt(g->player[i]) != 0){
+            active[i] = 1;
+            count++;
+        } else{active = 0;}
     }
+    if (active == 0) return;
+
+
 }

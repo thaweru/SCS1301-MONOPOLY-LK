@@ -7,6 +7,13 @@
 #define START_CASH 30000
 #define BID_INCREMENT 250
 
+typedef enum stratergyType{
+        AGGRESSIVE_INVESTOR,
+        CONSERVATIVE_BANKER,
+        RISK_TAKER,
+        OPPORTUNISTIC_TRADER
+} stratType;
+
 //Player attributes
 typedef struct Player{
 	char name[24];
@@ -16,15 +23,9 @@ typedef struct Player{
 	char InJail;
 	char railutil;
     char properties;
+    stratType strat;
 //	struct Loan;
 } plyr;
-
-typedef enum plyrstrat{
-    PURCHASE,
-    AUCTION,
-    LOANS,
-    INSUARANCE
-} plyrstrat;
 
 typedef enum sqrType{
 	EMPTY = -1,
@@ -101,4 +102,5 @@ int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p, game *g);
 void auction(sqr *s, game *g);
 int auction_bid(bid highbid, sqr s, plyr *p);
+char bankrupt(plyr p);
 #endif

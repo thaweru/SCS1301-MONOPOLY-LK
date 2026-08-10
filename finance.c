@@ -10,3 +10,8 @@ int net_worth(plyr *p, game *g){
     worth += p->cash;
     return worth;
 }
+
+char bankrupt(plyr p){
+    if (p.cash <=0) return 1;
+    return 0;
+}
