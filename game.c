@@ -97,25 +97,27 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 
 		}
 	//Buy the square when no one owns it
-	if ((s->owner == NULL)&&(canBuy(p, s))){
-		p->cash -= s->buyPrice;
-		s->owner = p;
-		switch (s->type){
-            case PROPERTY: p->properties++; break;
-			case RAILWAY: p->railutil++; break;
-			case UTILITY: p->railutil += 16; break;
-			default: break;
-		}
-		printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
-			p->name, s->name, s->buyPrice, p->cash);
-	}else{
-        auction(s, g);
+	if (s->owner == NULL){
+        if (canBuy(p, s)){
+		    p->cash -= s->buyPrice;
+		    s->owner = p;
+		    switch (s->type){
+                case PROPERTY: p->properties++; break;
+			    case RAILWAY: p->railutil++; break;
+			    case UTILITY: p->railutil += 16; break;
+			    default: break;
+		    }
+		    printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
+		        	p->name, s->name, s->buyPrice, p->cash);
+        }else{
+            auction(s, g);
+        }
     }
 }
 
 void auction(sqr *s, game *g){
     char active[PLAYERS], count = 0, bidPlaced = 1;
-    int currentBid = s->buyPrice/2;
+    int currentBid = s->buyPrice/2, nextBid, offer;
     plyr *highbid = NULL;
     printf("Auction started.\nProperty : %s\nOpening bid : LKR %d\n\n",
             s->name, currentBid);
@@ -123,9 +125,38 @@ void auction(sqr *s, game *g){
         if (bankrupt(g->player[i]) != 0){
             active[i] = 1;
             count++;
-        } else{active = 0;}
+        } else{active[i] = 0;}
     }
-    if (active == 0) return;
-
-
+    if (count == 0){
+        printf("No solvent players.\nOwnership remains with the Bank.\n");   /* Rule-LK 23 */
+    }
+    //bidding process
+    while ((count > 2)&&(bidPlaced == 0)){
+        bidPlaced = 0;
+        for (int i=0; (i < PLAYERS)&&(count > 1); i++){
+            if (active[i]) continue;
+            nextBid = currentBid + BID_INCREMENT;
+            offer = decide_bid(&g->player[i], s, nextBid); 
+            
+            if (offer >= nextBid){
+                currentBid = offer;
+                highbid = &g->player[i];
+                bidPlaced = 1;
+                printf("%s bids LKR %d\n", highbid->name, offer);
+            }else{
+                active[i] = 0;
+                count--;
+                printf("%s withdraws.\n", g->player[i].name);
+            }
+        }
+    }
+    if (highbid == NULL) {
+        printf("No player bids.\nOwnership remains with the Bank.\n");   /* Rule-LK 23 */
+        return;
+    }
+    highbid->cash -= currentBid;
+    s->owner = highbid;
+    printf("%s wins the auction.\nPurchase price : %d\nRemaining balance : LKR %d\n",
+            highbid->name, currentBid, highbid->cash);
+    return;
 }

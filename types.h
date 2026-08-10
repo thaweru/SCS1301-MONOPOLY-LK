@@ -101,6 +101,6 @@ void landing_action(plyr *p, sqr *s, int roll, game *g);
 int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p, game *g);
 void auction(sqr *s, game *g);
-int auction_bid(bid highbid, sqr s, plyr *p);
+int decide_bid(plyr *p, sqr *s, int nextbid);
 char bankrupt(plyr p);
 #endif

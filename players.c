@@ -39,8 +39,21 @@ int canBuy(plyr *p, sqr *s){
 	return 0;
 }
 
-int auction_bid(bid highbid, sqr s, plyr *p){
-    if ((highbid.bidder != p)&&(highbid.value < s.buyPrice)){
-        return highbid.value + BID_INCREMENT;
+int decide_bid(plyr *p, sqr *s, int nextbid){
+    //if (nextbid > p->cash) return -1;
+    switch (p->strat){
+        case AGGRESSIVE_INVESTOR:
+            if (nextbid <= (s->buyPrice * 120)/100) return nextbid;
+            return -1;
+        case RISK_TAKER:
+            return nextbid;
+        case CONSERVATIVE_BANKER:
+            if (nextbid < s->buyPrice) return nextbid;
+            return -1;
+        case OPPORTUNISTIC_TRADER:
+            if (nextbid <= s->buyPrice) return nextbid;
+            return -1;
+        default:
+            return -1;
     }
 }
