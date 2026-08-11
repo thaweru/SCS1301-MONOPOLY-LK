@@ -1,6 +1,7 @@
 
 #include "types.h"
 #include <stdlib.h>
+#include <string.h>
 
 plyr spawn_player(char n){
 	plyr p;

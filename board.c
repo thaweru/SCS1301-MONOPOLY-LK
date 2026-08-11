@@ -1,6 +1,8 @@
 #include "types.h"
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
+#include <string.h>
 
 sqrgrp property_group(char *str){
 	if (strcmp(str, "Brown") == 0) return BROWN;
