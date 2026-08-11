@@ -7,3 +7,5 @@ types.h.gch
 *.swo
 *.swn
 .*.swp
+
+test.c

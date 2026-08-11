@@ -34,7 +34,7 @@ void run_game(int N, int n, game g){
         for (int i=0; i < n; i++){
             printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
             printf("Net Worth : LKR %i\n", net_worth(&P[i], &g));
-            printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
+            //printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
             printf("---------------------------------------------\n");
         }
 		g.currRound++;
@@ -97,26 +97,22 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 
 		}
 	//Buy the square when no one owns it
-	if ((s->owner == NULL)&&(canBuy(p, s))){
-		p->cash -= s->buyPrice;
-		s->owner = p;
-		switch (s->type){
-            case PROPERTY: p->properties++; break;
-			case RAILWAY: p->railutil++; break;
-			case UTILITY: p->railutil += 16; break;
-			default: break;
+	if (s->owner == NULL){
+		if (!canBuy(p, s)){
+			p->cash -= s->buyPrice;
+			s->owner = p;
+			switch (s->type){
+				case PROPERTY: p->properties++; break;
+				case RAILWAY: p->railutil++; break;
+				case UTILITY: p->railutil += 16; break;
+				default: break;
+			}
+			printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
+				p->name, s->name, s->buyPrice, p->cash);
 		}
-		printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
-			p->name, s->name, s->buyPrice, p->cash);
-	}else{
-        auction(s, g);
-    }
-}
-
-void auction(sqr *s, game *g){
-    bid highbid = {s->buyPrice/2, NULL};
-    printf("Auction started.\nProperty : %s\nOpening bid : LKR %d\n", s->name, highbid.value);
-    for (int i=0; i < PLAYERS; i++){
-        highbid.value = auction_bid(highbid, *s, &g->player[i]);
-    }
+		if (s->type == PROPERTY || s->type == RAILWAY || s->type == UTILITY){
+			printf("%s will not purchase %s. Initiating Auction.\n", p->name, s->name);
+			auction(s, g);
+		}
+	}
 }

@@ -2,15 +2,22 @@
 #define TYPES_H
 
 #define PLAYERS 4
-#define MAX_ROUNDS 500
+#define MAX_ROUNDS 10
 #define SQUARES 40
 #define START_CASH 30000
 #define BID_INCREMENT 250
 
+typedef enum PlyrStrat{
+    AGGRESSIVE_INVESTOR,
+    CONSERVATIVE_BANKER,
+    RISK_TAKER,
+    OPPORTUNISTIC_TRADER
+} plyrstrat;
+
 //Player attributes
 typedef struct Player{
 	char name[24];
-	char strategy;
+	plyrstrat strat;
 	int cash;
 	char pos;
 	char InJail;
@@ -18,13 +25,6 @@ typedef struct Player{
     char properties;
 //	struct Loan;
 } plyr;
-
-typedef enum plyrstrat{
-    PURCHASE,
-    AUCTION,
-    LOANS,
-    INSUARANCE
-} plyrstrat;
 
 typedef enum sqrType{
 	EMPTY = -1,
@@ -86,11 +86,6 @@ typedef struct Game{
     econ econState;
 } game;
 
-typedef struct HighBid{
-    int value;
-    plyr *bidder;
-}bid;
-
 int dice(char *duble);
 game init_game(int n, char **arr);
 void start_game(plyr *plyrs, int n, int cash);
@@ -100,5 +95,5 @@ void landing_action(plyr *p, sqr *s, int roll, game *g);
 int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p, game *g);
 void auction(sqr *s, game *g);
-int auction_bid(bid highbid, sqr s, plyr *p);
+int auction_bid(plyr p, sqr s, int nextBid);
 #endif

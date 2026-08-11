@@ -2,21 +2,22 @@
 #include "types.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 plyr spawn_player(char n){
 	plyr p;
 	switch (n%4){
 		case 0:
-		strcpy(p.name, "Aggressive Investor");
+		p = (plyr){"Aggressive Investor", AGGRESSIVE_INVESTOR, START_CASH, 0, 0, 0, 0};
 		break;
 		case 1:
-		strcpy(p.name, "Conservative Banker");
+		p = (plyr){"Conservative Banker", CONSERVATIVE_BANKER, START_CASH, 0, 0, 0, 0};
 		break;
 		case 2:
-		strcpy(p.name, "Risk Taker");
+		p = (plyr){"Risk Taker", RISK_TAKER, START_CASH, 0, 0, 0, 0};
 		break;
 		case 3:
-		strcpy(p.name, "Opportunistic Trader");
+		p = (plyr){"Opportunistic Trader", OPPORTUNISTIC_TRADER, START_CASH, 0, 0, 0, 0};
 		break;
 	}
 	return p;
@@ -36,8 +37,29 @@ int canBuy(plyr *p, sqr *s){
 	return 0;
 }
 
-int auction_bid(bid highbid, sqr s, plyr *p){
-    if ((highbid.bidder != p)&&(highbid.value < s.buyPrice)){
-        return highbid.value + BID_INCREMENT;
-    }
+int auction_bid(plyr p, sqr s, int nextBid){
+	if (p.cash < nextBid) return -1;
+	char decision = 0;
+	switch (p.strat){
+		case AGGRESSIVE_INVESTOR:
+			if (nextBid < (s.buyPrice * 120)/100) decision = 1;
+			break;
+		case CONSERVATIVE_BANKER:
+			if (nextBid < s.buyPrice) decision = 1;
+			break;
+		case RISK_TAKER:
+			decision = 1;
+			break;
+		case OPPORTUNISTIC_TRADER:
+			if (nextBid <= s.buyPrice) decision = 1;
+			break;
+		default: break;
+	}
+	if (decision){
+		printf("%s bids LKR %d\n", p.name, nextBid);
+		return nextBid;
+	}else{
+		printf("%s withdraws.\n", p.name);
+	}
+	return -1;
 }
