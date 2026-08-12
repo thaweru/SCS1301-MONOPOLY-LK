@@ -104,4 +104,6 @@ int net_worth(plyr *p, game *g);
 void auction(sqr *s, game *g);
 int auction_bid(plyr p, sqr s, int nextBid);
 int projected_appriciation(sqr *s);
+char isMonopoly(game *g, plyr *p, sqr *s);
+char canBuild(game *g, sqr *s);
 #endif

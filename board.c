@@ -155,3 +155,24 @@ resort:
 	}
 }
 
+char isMonopoly(game *g, plyr *p, sqr *s){
+    char itis = 1;
+    for(int i=0; i < PLAYERS; i++){
+        if((g->square[i].group == s->group)&&(g->square[i].owner != p)){
+            itis = 0;
+        }
+    }
+    return itis;
+}
+
+char canBuild(game *g, sqr *s){
+    char count = 0, houses = 0;
+    for(int i=0; i < PLAYERS; i++){
+        if(g->square[i].group == s->group){
+            count++;
+            houses += g->square[i].houses;
+        }
+    }
+    if ((houses/count) >= s->houses) return 1;
+    return 0;
+}

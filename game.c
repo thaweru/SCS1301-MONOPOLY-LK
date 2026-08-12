@@ -121,4 +121,12 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 			auction(s, g);
 		}
 	}
+    //Build houses and hotels if monopoly
+    if (isMonopoly(g, p, s) && s->type==PROPERTY){
+        if (canBuild(g, s)){
+            printf("%s buids house in %s\n", s->owner->name, s->name);
+            p->cash -= s->houseCost;
+            s->houses++;
+        }
+    }
 }
