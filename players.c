@@ -40,30 +40,28 @@ int canBuy(plyr *p, sqr *s){
 }
 
 int auction_bid(plyr p, sqr s, int nextBid){
-	if (p.cash > nextBid) return -1;
-	char decision = 1;
-	/** 
+	if (p.cash < nextBid) return 0;
+	char decision = 0;
 	switch (p.strat){
 		case AGGRESSIVE_INVESTOR:
-			if (nextBid > (s.buyPrice * 120)/100) decision = 1;
+			if (nextBid < (s.buyPrice * 120)/100) decision = 1;
 			break;
 		case CONSERVATIVE_BANKER:
 			if (nextBid < s.buyPrice) decision = 1;
 			break;
 		case RISK_TAKER:
-			decision = 1;
+			if (nextBid < p.cash) decision = 1;
 			break;
 		case OPPORTUNISTIC_TRADER:
 			if (nextBid <= s.buyPrice) decision = 1;
 			break;
 		default: break;
 	}
-	**/
 	if (decision == 1){
 		printf("%s bids LKR %d\n", p.name, nextBid);
 		return nextBid;
-	}else{
-		printf("%s withdraws.\n", p.name);
-	}
-	return -1;
+	}//else{
+		//printf("%s passes.\n", p.name);
+	//}
+	return 0;
 }

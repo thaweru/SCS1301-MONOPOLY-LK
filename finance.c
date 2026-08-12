@@ -26,9 +26,9 @@ void auction(sqr *s, game *g){
         count = 0;
         nextBid = currentBid + BID_INCREMENT;
         for (int i = 0; i < PLAYERS; i++){
-            if (isBankrupt(&g->player[i])){
+            if ((auction_bid(g->player[i], *s, nextBid))){
                 highestBidder = &g->player[i];
-                currentBid = auction_bid(g->player[i], *s, nextBid);
+                currentBid = nextBid;
                 count++;
             }
         }
