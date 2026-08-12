@@ -3,13 +3,17 @@
 
 int net_worth(plyr *p, game *g){
     int worth = 0;
+    char hotel = 0, house = 0, proprties = 0;
     //for (int i =0; i < 40; i++){if (g->square[i].owner == p){worth += g->square[i].buyPrice;}}
     sqr *ptr = p->lastBuy;
     while(ptr != NULL){
         worth += ptr->buyPrice;
+        if(ptr->type == PROPERTY) proprties++;
+        if(ptr->houses > 4) hotel++;
         printf("owns %s\n", ptr->name);
         ptr = ptr->prevBuy;
     }
+    printf("\n");
     worth += p->cash; puts("");
     return worth;
 }
