@@ -79,6 +79,7 @@ typedef struct Square{
 	char houses;
 	plyr *owner;
 	sqr *prevBuy;
+	sqr *nextofgroup;
 } sqr;
 
 typedef struct Board{
