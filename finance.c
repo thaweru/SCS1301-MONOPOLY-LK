@@ -3,12 +3,14 @@
 
 int net_worth(plyr *p, game *g){
     int worth = 0;
-    for (int i =0; i < 40; i++){
-        if (g->square[i].owner == p){
-            worth += g->square[i].buyPrice;
-        }
+    //for (int i =0; i < 40; i++){if (g->square[i].owner == p){worth += g->square[i].buyPrice;}}
+    sqr *ptr = p->lastBuy;
+    while(ptr != NULL){
+        worth += ptr->buyPrice;
+        printf("owns %s\n", ptr->name);
+        ptr = ptr->prevBuy;
     }
-    worth += p->cash;
+    worth += p->cash; puts("");
     return worth;
 }
 

@@ -9,3 +9,5 @@ types.h.gch
 .*.swp
 
 test.c
+
+.vscode/

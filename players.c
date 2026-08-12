@@ -8,16 +8,16 @@ plyr spawn_player(char n){
 	plyr p;
 	switch (n%4){
 		case 0:
-		p = (plyr){"Aggressive Investor", AGGRESSIVE_INVESTOR, START_CASH, 0, 0, 0, 0};
+		p = (plyr){"Aggressive Investor", AGGRESSIVE_INVESTOR, START_CASH, 0, 0, 0, 0, NULL};
 		break;
 		case 1:
-		p = (plyr){"Conservative Banker", CONSERVATIVE_BANKER, START_CASH, 0, 0, 0, 0};
+		p = (plyr){"Conservative Banker", CONSERVATIVE_BANKER, START_CASH, 0, 0, 0, 0, NULL};
 		break;
 		case 2:
-		p = (plyr){"Risk Taker", RISK_TAKER, START_CASH, 0, 0, 0, 0};
+		p = (plyr){"Risk Taker", RISK_TAKER, START_CASH, 0, 0, 0, 0, NULL};
 		break;
 		case 3:
-		p = (plyr){"Opportunistic Trader", OPPORTUNISTIC_TRADER, START_CASH, 0, 0, 0, 0};
+		p = (plyr){"Opportunistic Trader", OPPORTUNISTIC_TRADER, START_CASH, 0, 0, 0, 0, NULL};
 		break;
 	}
 	return p;

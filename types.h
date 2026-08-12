@@ -16,6 +16,8 @@ typedef enum PlyrStrat{
     OPPORTUNISTIC_TRADER
 } plyrstrat;
 
+typedef struct Square sqr;
+
 //Player attributes
 typedef struct Player{
 	char name[24];
@@ -25,6 +27,7 @@ typedef struct Player{
 	char InJail;
 	char railutil;
     char properties;
+	sqr *lastBuy;
 //	struct Loan;
 } plyr;
 
@@ -73,8 +76,9 @@ typedef struct Square{
 	int baseRent;
 	int houseCost;
 	int hotelCost;
-	plyr *owner;
 	char houses;
+	plyr *owner;
+	sqr *prevBuy;
 } sqr;
 
 typedef struct Board{

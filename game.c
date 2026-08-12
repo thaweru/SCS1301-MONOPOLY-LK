@@ -102,12 +102,18 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 		if (canBuy(p, s)){
 			p->cash -= s->buyPrice;
 			s->owner = p;
-			switch (s->type){
+			if (p->lastBuy == NULL){
+				p->lastBuy = s;
+			}else{
+				s->prevBuy = p->lastBuy;
+				p->lastBuy = s;
+			}
+			/**switch (s->type){
 				case PROPERTY: p->properties++; break;
 				case RAILWAY: p->railutil++; break;
 				case UTILITY: p->railutil += 16; break;
 				default: break;
-			}
+			}**/
 			printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
 				p->name, s->name, s->buyPrice, p->cash);
 		}else{
