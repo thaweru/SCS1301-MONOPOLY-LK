@@ -97,8 +97,8 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 
 		}
 	//Buy the square when no one owns it
-	if (s->owner == NULL){
-		if (!canBuy(p, s)){
+	if (s->owner == NULL && (s->type == PROPERTY || s->type == RAILWAY || s->type == UTILITY)){
+		if (canBuy(p, s)){
 			p->cash -= s->buyPrice;
 			s->owner = p;
 			switch (s->type){
@@ -109,8 +109,7 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 			}
 			printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
 				p->name, s->name, s->buyPrice, p->cash);
-		}
-		if (s->type == PROPERTY || s->type == RAILWAY || s->type == UTILITY){
+		}else{
 			printf("%s will not purchase %s. Initiating Auction.\n", p->name, s->name);
 			auction(s, g);
 		}

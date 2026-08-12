@@ -24,14 +24,16 @@ plyr spawn_player(char n){
 }
 
 int canBuy(plyr *p, sqr *s){
-	if (p->cash > s->baseRent){
-		switch (s->type){
-			case PROPERTY:
-			case RAILWAY:
-			case UTILITY:
-				return 1;
-				break;
-			default: break;
+	if (s->type == PROPERTY || s->type == RAILWAY || s->type == UTILITY){
+		switch (p->strat){
+			case AGGRESSIVE_INVESTOR:
+				if ((p->cash-MAX_RENT) > s->buyPrice) return 1; break;
+			case CONSERVATIVE_BANKER:
+				if (p->cash/2 >= s->buyPrice) return 1; break;
+			case RISK_TAKER:
+				if (p->cash > s->buyPrice) return 1; break;
+			case OPPORTUNISTIC_TRADER:
+				if (projected_appriciation(s) > (s->houseCost*4 + s->hotelCost)) return 1; break;
 		}
 	}
 	return 0;
@@ -42,7 +44,7 @@ int auction_bid(plyr p, sqr s, int nextBid){
 	char decision = 0;
 	switch (p.strat){
 		case AGGRESSIVE_INVESTOR:
-			if (nextBid < (s.buyPrice * 120)/100) decision = 1;
+			if (nextBid > (s.buyPrice * 120)/100) decision = 1;
 			break;
 		case CONSERVATIVE_BANKER:
 			if (nextBid < s.buyPrice) decision = 1;

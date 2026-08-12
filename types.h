@@ -6,6 +6,8 @@
 #define SQUARES 40
 #define START_CASH 30000
 #define BID_INCREMENT 250
+#define PASS_GO_CASH 2000
+#define MAX_RENT 2000
 
 typedef enum PlyrStrat{
     AGGRESSIVE_INVESTOR,
@@ -96,4 +98,5 @@ int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p, game *g);
 void auction(sqr *s, game *g);
 int auction_bid(plyr p, sqr s, int nextBid);
+int projected_appriciation(sqr *s);
 #endif

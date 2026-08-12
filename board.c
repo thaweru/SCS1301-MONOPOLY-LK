@@ -50,7 +50,7 @@ game init_game(int n, char **arr){
 	char typ[16];
 	char name[48];
 	fscanf(fp, " %*[^\n]");
-	for (int i=0; i < 40; i++){
+	for (int i=0; i < SQUARES; i++){
 		fscanf(fp, " %[^,],%[^,],", typ, name);
 		g.square[i].type = square_type(typ);
         strcpy(g.square[i].name, name);
@@ -106,14 +106,14 @@ void start_game(plyr *plyrs, int n, int cash){
 	char d;
 	for (int i=0; i < n; i++){
 		p[i].a = spawn_player(i);
-		p[i].a.cash = cash;
+		//p[i].a.cash = cash;
 		p[i].k = dice(&d);
 		//printf("%s rolls %d\n", p[i].a.name, p[i].k);
 		p[i].same = 0;
 	}
 
 	for (int i=0; i < n; i++) printf("Player %d : %s\n", i+1,  p[i].a.name);
-	printf("\nEach player begins with LKR %'d\n\n", cash);
+	printf("\nEach player begins with LKR %d\n\n", cash);
 	for (int i=0; i < n; i++) printf("%s rolls %d\n", p[i].a.name, p[i].k);
 
 	//bubble sort
