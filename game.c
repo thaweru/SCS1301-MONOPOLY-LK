@@ -86,10 +86,11 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 				p->pos = 10;
 				break;
 			case JAIL:
-				if ((p->InJail > 3)&&(p->InJail != 0)){
+				if ((p->InJail > 3)){
 					p->InJail = 0;
 					printf("%s is released from Jail\n", p->name);
-				}else{
+				}
+				if (p->InJail != 0){
 					p->InJail++;
 					printf("%s is in Jail\n", p->name);
 				}

@@ -40,8 +40,9 @@ int canBuy(plyr *p, sqr *s){
 }
 
 int auction_bid(plyr p, sqr s, int nextBid){
-	if (p.cash < nextBid) return -1;
-	char decision = 0;
+	if (p.cash > nextBid) return -1;
+	char decision = 1;
+	/** 
 	switch (p.strat){
 		case AGGRESSIVE_INVESTOR:
 			if (nextBid > (s.buyPrice * 120)/100) decision = 1;
@@ -57,7 +58,8 @@ int auction_bid(plyr p, sqr s, int nextBid){
 			break;
 		default: break;
 	}
-	if (decision){
+	**/
+	if (decision == 1){
 		printf("%s bids LKR %d\n", p.name, nextBid);
 		return nextBid;
 	}else{
