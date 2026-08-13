@@ -47,6 +47,8 @@ void auction(sqr *s, game *g){
         printf("%s wins the auction for %s at LKR %d\n", highestBidder->name, s->name, currentBid);
         highestBidder->cash -= currentBid;
         s->owner = highestBidder;
+		s->prevBuy = highestBidder->lastBuy;
+		highestBidder->lastBuy = s;
     }else{
         printf("No bids were placed for %s\n", s->name);
     }
