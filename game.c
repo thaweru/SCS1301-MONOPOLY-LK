@@ -1,5 +1,5 @@
 #include "types.h"
-#include "stdio.h"
+#include <stdio.h>
 #define PASS_GO_CASH 2000
 
 void run_game(int N, int n, game g){
@@ -46,6 +46,7 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 	if (p->pos >= 40){
 		p->pos = p->pos % 40;
 		p->cash += PASS_GO_CASH;
+        p->income += PASS_GO_CASH;
 		printf("%s passed GO.\nCollected LKR %i.\nCurrent Balance : LKR %d.\n", 
 			p->name, PASS_GO_CASH, p->cash);
 		}
@@ -70,11 +71,20 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 					case 1: rentdue = 4 * roll; break;
 					case 2: rentdue = 10 * roll; break;
 				}
+            case TAX:{
+                int tax_due = (p->income*INC_TAX)/100;
+                if(p->cash > tax_due){
+                    p->cash -= tax_due;
+                    p->income = 0;
+                    printf("%s payed income tax of LKR %d\n", p->name, tax_due);
+                }
+            }
 			default: break;
 		}
 		if (rentdue > 0){
 			p->cash -= rentdue;
 			s->owner->cash += rentdue;
+            s->owner->income += rentdue;
 			printf("Rent paid : LKR %d\nOwner : %s\n",
 				rentdue, s->owner->name);
 		}
@@ -136,14 +146,14 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 }
 
 char winner_of_game(game g){
-    int maxworth = 0, worth; char max;
+    int maxworth = 0, worth = -START_CASH; char maxindex;
     for(int i=0; i < PLAYERS; i++){
         worth = net_worth(&g.player[i], &g);
         if (maxworth < worth){
-            max = i;
+            maxindex = i;
             maxworth = worth;
         }
     }
-    printf("%s wins the game.\n", g.player[max].name);
-    return max;
+    printf("%s wins the game.\n", g.player[maxindex].name);
+    return maxindex;
 }

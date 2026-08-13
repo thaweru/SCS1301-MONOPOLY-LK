@@ -8,6 +8,7 @@
 #define BID_INCREMENT 250
 #define PASS_GO_CASH 2000
 #define MAX_RENT 2000
+#define INC_TAX 15
 
 typedef enum PlyrStrat{
     AGGRESSIVE_INVESTOR,
@@ -23,6 +24,7 @@ typedef struct Player{
 	char name[24];
 	plyrstrat strat;
 	int cash;
+    int income;
 	char pos;
 	char InJail;
 	char railutil;
