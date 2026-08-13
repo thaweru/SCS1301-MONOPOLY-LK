@@ -82,11 +82,12 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 			default: break;
 		}
 		if (rentdue > 0){
-			p->cash -= rentdue;
-			s->owner->cash += rentdue;
-            s->owner->income += rentdue;
-			printf("Rent paid : LKR %d\nOwner : %s\n",
-				rentdue, s->owner->name);
+            if (p->cash > rentdue){
+			    p->cash -= rentdue;
+			    s->owner->cash += rentdue;
+                s->owner->income += rentdue;
+			    printf("Rent paid : LKR %d\nOwner : %s\n", rentdue, s->owner->name);
+            }
 		}
 	}
 		switch (s->group){

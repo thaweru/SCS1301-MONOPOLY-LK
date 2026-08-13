@@ -3,6 +3,8 @@ monopoly.exe
 types.h.gch
 types.h.pch
 
+intresting_seeds.txt
+
 # Vim temporary swap files
 *.swp
 *.swo
