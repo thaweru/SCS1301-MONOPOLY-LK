@@ -1,12 +1,14 @@
 monopoly
 monopoly.exe
 types.h.gch
+types.h.pch
 
 # Vim temporary swap files
 *.swp
 *.swo
 *.swn
 .*.swp
+*.pch
 
 test.c
 

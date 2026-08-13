@@ -10,5 +10,7 @@ int main(int argc, char *argv[]){
 	start_game(g.player, PLAYERS, START_CASH);
 	puts("");
 	run_game(MAX_ROUNDS, PLAYERS, g);
+    puts("");
+    winner_of_game(g);
 //	for (int i=0; i < 24; i++) printf("%i, duble = %i\n", dice(&duble), duble);
 }

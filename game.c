@@ -134,3 +134,16 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
         }
     }
 }
+
+char winner_of_game(game g){
+    int maxworth = 0, worth; char max;
+    for(int i=0; i < PLAYERS; i++){
+        worth = net_worth(&g.player[i], &g);
+        if (maxworth < worth){
+            max = i;
+            maxworth = worth;
+        }
+    }
+    printf("%s wins the game.\n", g.player[max].name);
+    return max;
+}
