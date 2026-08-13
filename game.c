@@ -104,6 +104,14 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 					p->InJail++;
 					printf("%s is in Jail\n", p->name);
 				}
+            case CD_FUND:{
+                int tax_due = (total_assets(p, g)*COM_DEV_TAX)/100;
+                if(p->cash > tax_due){
+                    p->cash -= tax_due;
+                    p->income = 0;
+                    printf("%s payed community development tax of LKR %d\n", p->name, tax_due);
+                }
+            }
 			default: break;
 
 		}

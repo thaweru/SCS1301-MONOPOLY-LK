@@ -1,7 +1,7 @@
 #include "types.h"
 #include <stdio.h>
 
-int net_worth(plyr *p, game *g){
+int total_assets(plyr *p, game *g){
     int worth = 0;
     char hotel = 0, house = 0, proprties = 0;
     //for (int i =0; i < 40; i++){if (g->square[i].owner == p){worth += g->square[i].buyPrice;}}
@@ -16,6 +16,10 @@ int net_worth(plyr *p, game *g){
     printf("\n");
     worth += p->cash; puts("");
     return worth;
+}
+
+int net_worth(plyr *p, game *g){
+    return total_assets(p, g);
 }
 
 int isBankrupt(plyr *p){

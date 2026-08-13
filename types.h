@@ -9,6 +9,7 @@
 #define PASS_GO_CASH 2000
 #define MAX_RENT 2000
 #define INC_TAX 15
+#define COM_DEV_TAX 10
 
 typedef enum PlyrStrat{
     AGGRESSIVE_INVESTOR,
@@ -109,4 +110,5 @@ int projected_appriciation(sqr *s);
 char isMonopoly(game *g, plyr *p, sqr *s);
 char canBuild(game *g, sqr *s);
 char winner_of_game(game g);
+int total_assets(plyr *p, game *g);
 #endif
