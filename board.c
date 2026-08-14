@@ -173,6 +173,7 @@ char canBuild(game *g, sqr *s){
             houses += g->square[i].houses;
         }
     }
+	if (!count) return 0;
     if ((houses/count) >= s->houses) return 1;
     return 0;
 }
