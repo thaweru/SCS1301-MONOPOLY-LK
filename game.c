@@ -2,12 +2,12 @@
 #include <stdio.h>
 #define PASS_GO_CASH 2000
 
-void run_game(int N, int n, game g){
-    plyr *P = g.player;
-	g.currRound = 0;
+void run_game(int N, int n, game *g){
+    plyr *P = g->player;
+	g->currRound = 0;
 	char duble, players = PLAYERS;
 	short int rolled, prev;
-	while ((g.currRound < N) && (players > 2)){
+	while ((g->currRound < N) && (players > 2)){
         players = PLAYERS;
 		for (int i=0; i < n; i++){
             if (P[i].cash == -1){
@@ -22,7 +22,7 @@ void run_game(int N, int n, game g){
 				printf("%s moves from Square %i to Square %i\n",
 				P[i].name, prev, (P[i].pos%40)
 				);
-				landing_action(&P[i], &g.square[P[i].pos%40], rolled, &g);
+				landing_action(&P[i], &g->square[P[i].pos%40], rolled, g);
 			}else{
 				if (duble == 1){
 					printf("%s rolled doubles. Released from jail.\n", P[i].name);
@@ -34,16 +34,16 @@ void run_game(int N, int n, game g){
 			puts("");
 		}
         printf("=============================================\n");
-        printf("Round %d Summery\n", g.currRound+1);
+        printf("Round %d Summery\n", g->currRound+1);
         printf("=============================================\n");
         for (int i=0; i < n; i++){
             printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
-            P[i].NW = net_worth(&P[i], &g);
+            P[i].NW = net_worth(&P[i], g);
             printf("Net Worth : LKR %i\n", P[i].NW);
             //printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
             printf("---------------------------------------------\n");
         }
-		g.currRound++;
+		g->currRound++;
 	}
 }
 
@@ -161,26 +161,21 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
     }
 }
 
-void winner_of_game(game g){
-    plyr winner = g.player[PLAYERS-1];
+void winner_of_game(plyr *p){
+    plyr temp;
     for(int i=0; i < PLAYERS; i++){
-        puts(winner.name);
-        if (g.player[i].NW < winner.NW){
-            winner = g.player[i];
+        for(int j=0; j < PLAYERS-1; j++){
+            if(p[j].NW < p[j+1].NW){
+                temp = p[j];
+                p[j] = p[j+1];
+                p[j+1] = temp;
+            }
         }
+        printf("%d – %-24s | Net Worth: LKR %d\n", i+1, p[i].name, p[i].NW);
     }
-    printf("%s wins the game.\n", winner.name);
-    return;
+    printf("\n######## %s wins the game. ########\n\n", p[0].name);
 }
 
-    /**
-    int maxworth = 0, worth = -START_CASH; 
-        worth = net_worth(&g.player[i], &g);
-        if (maxworth < worth){
-            maxindex = i;
-            maxworth = worth;
-        }
-    }**/
 void find_cash(plyr *p, int due){
     printf("Not enough cash to pay LKR %d\n", due);
     //TODO:Write the logic to morgauge a low value property to payit.
