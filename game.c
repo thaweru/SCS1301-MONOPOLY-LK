@@ -92,14 +92,9 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 			    p->cash -= rentdue;
 			    s->owner->cash += rentdue;
                 s->owner->income += rentdue;
-<<<<<<< HEAD
-			    printf("Rent paid : LKR %d\nOwner : %s\n", rentdue, s->owner->name);
-            }
-=======
 			    printf("Rent paid : LKR %d\nOwner : %s\n",
 				    rentdue, s->owner->name);
             }else{find_cash(p, rentdue);}
->>>>>>> 816a3f00073a57ba9d92e964abb88b3d8b8bbe1d
 		}
 	}
 		switch (s->group){
