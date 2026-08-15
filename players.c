@@ -1,26 +1,31 @@
-
 #include "types.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
 plyr spawn_player(char n){
-	plyr p;
+    plyr p;
 	switch (n%4){
 		case 0:
-		p = (plyr){"Aggressive Investor", AGGRESSIVE_INVESTOR, START_CASH, 0, 0, 0, 0, 0, NULL};
-		break;
+		    strcpy(p.name, "Aggressive Investor");
+            p.strat = AGGRESSIVE_INVESTOR;
+		    break;
 		case 1:
-		p = (plyr){"Conservative Banker", CONSERVATIVE_BANKER, START_CASH, 0, 0, 0, 0, 0, NULL};
-		break;
+		    strcpy(p.name, "Conservative Banker");
+            p.strat = CONSERVATIVE_BANKER;
+		    break;
 		case 2:
-		p = (plyr){"Risk Taker", RISK_TAKER, START_CASH, 0, 0, 0, 0, 0, NULL};
-		break;
+		    strcpy(p.name, "Risk Taker");
+            p.strat = RISK_TAKER;
+		    break;
 		case 3:
-		p = (plyr){"Opportunistic Trader", OPPORTUNISTIC_TRADER, START_CASH, 0, 0, 0, 0, 0, NULL};
-		break;
+		    strcpy(p.name, "Opportunistic Trader");
+            p.strat =  OPPORTUNISTIC_TRADER;
+		    break;
 	}
-	return p;
+    p.cash = START_CASH; p.income = 0; p.pos = 0; p.InJail = 0;
+    p.railutil = 0; p.properties = 0; p.lastBuy = NULL; p.NW = 0;
+	return p; 
 }
 
 int canBuy(plyr *p, sqr *s){
