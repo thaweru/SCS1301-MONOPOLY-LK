@@ -77,14 +77,26 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 					case 1: rentdue = 4 * roll; break;
 					case 2: rentdue = 10 * roll; break;
 				}
+				break;
             case TAX:{
-                int tax_due = (p->income*INC_TAX)/100;
-                if(p->cash > tax_due){
-                    p->cash -= tax_due;
-                    p->income = 0;
-                    printf("%s payed income tax of LKR %d\n", p->name, tax_due);
-                }else{find_cash(p, tax_due);}
-            }
+					int tax_due = (p->income*INC_TAX)/100;
+					if(p->cash > tax_due){
+						p->cash -= tax_due;
+						p->income = 0;
+						printf("%s payed income tax of LKR %d\n", p->name, tax_due);
+					}else{find_cash(p, tax_due);}
+				}
+				break;
+			case INSURANCE:{
+				sqr *ptr = p->lastBuy;
+				while(ptr != 0){
+					if (ptr->type == PROPERTY && ptr->houses > 0){
+						if (ptr->insured == NO_INS){
+							ptr->insured = get_insurance_policy(p, ptr);
+						}
+					}
+				}
+			}
 			default: break;
 		}
 		if (rentdue > 0){

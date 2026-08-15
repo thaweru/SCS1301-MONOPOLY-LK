@@ -57,6 +57,7 @@ game init_game(int n, char **arr){
 		g.square[i].owner = NULL;
 		g.square[i].prevBuy = NULL;
 		g.square[i].nextofgroup = NULL;
+		g.square[i].insured = NO_INS;
 		switch (g.square[i].type){
 			case PROPERTY:
 				fscanf(fp,"%d,%d,%15[^,],%d,%d\n",

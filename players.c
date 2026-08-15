@@ -70,3 +70,46 @@ int auction_bid(plyr p, sqr s, int nextBid){
 	//}
 	return 0;
 }
+
+instyp get_insurance_policy(plyr *p, sqr *s){
+	instyp getting;
+	switch (p->strat){
+		case AGGRESSIVE_INVESTOR:
+			if (s->houses > 4){
+				getting = COMPREHENSIVE;
+			}else{
+				getting = BASIC;
+			}
+			break;
+		case CONSERVATIVE_BANKER:
+			getting = COMPREHENSIVE;
+			break;
+		case RISK_TAKER:
+			return NO_INS;
+			break;
+		case OPPORTUNISTIC_TRADER:
+			if (s->group == YELLOW || s->group == GREEN || s->group == DARK_BLUE){
+				getting = COMPREHENSIVE;
+			}
+			break;
+	}
+	int premium = 0;
+	switch (getting){
+		case NO_INS: return NO_INS; break;
+		case BASIC:
+			premium = (s->buyPrice * BASIC_INS_PRM)/100;
+			break;
+		case COMPREHENSIVE:
+			premium = (s->buyPrice * COMP_INS_PRM)/100;
+			break;
+		case BIZ_INTRPT:
+			premium = (s->buyPrice * BIZ_INTRPT_PRM)/100;
+			break;
+	}
+	if (premium < p->cash){
+		p->cash -= premium;
+		return getting;
+	}else{
+		return NO_INS;
+	}
+}

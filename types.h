@@ -10,6 +10,9 @@
 #define MAX_RENT 2000
 #define INC_TAX 15
 #define COM_DEV_TAX 10
+#define BASIC_INS_PRM 5
+#define COMP_INS_PRM 10
+#define BIZ_INTRPT_PRM 15
 
 typedef enum PlyrStrat{
     AGGRESSIVE_INVESTOR,
@@ -76,6 +79,13 @@ typedef enum EconomicState{
     RECESSION,
 } econ;
 
+typedef enum InsuranceType{
+	NO_INS,
+	BASIC,
+	COMPREHENSIVE,
+	BIZ_INTRPT
+} instyp;
+
 typedef struct Square{
 	sqrTyp type;
 	char name[42];
@@ -89,6 +99,7 @@ typedef struct Square{
 	sqr *prevBuy;
 	sqr *nextofgroup;
     char isMort;
+	instyp insured;
 } sqr;
 
 typedef struct Board{
@@ -119,4 +130,5 @@ void winner_of_game(plyr *p);
 int total_assets(plyr *p, game *g);
 void find_cash(plyr *p, int dues);
 void dissolving_player(plyr *p);
+instyp get_insurance_policy(plyr *p, sqr *s);
 #endif
