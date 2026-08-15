@@ -108,6 +108,16 @@ instyp get_insurance_policy(plyr *p, sqr *s){
 	}
 	if (premium < p->cash){
 		p->cash -= premium;
+		switch (s->insured){
+			case BASIC:
+				printf("Basic Insurence Purchased\n"); break;
+			case COMPREHENSIVE:
+				printf("Comprehensive Insurance Purchased\n"); break;
+			case BIZ_INTRPT:
+				printf("Business Interruption Insurance\n");
+			default: break;
+		}
+		printf("Property : %s\nPremium : LKR %d\n", s->name, premium);
 		return getting;
 	}else{
 		return NO_INS;

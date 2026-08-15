@@ -93,10 +93,11 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 					if (ptr->type == PROPERTY && ptr->houses > 0){
 						if (ptr->insured == NO_INS){
 							ptr->insured = get_insurance_policy(p, ptr);
+							if (ptr->insured != NO_INS)ptr->insuredRound = g->currRound;
+							}
 						}
 					}
 				}
-			}
 			default: break;
 		}
 		if (rentdue > 0){

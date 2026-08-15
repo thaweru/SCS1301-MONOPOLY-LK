@@ -100,6 +100,7 @@ typedef struct Square{
 	sqr *nextofgroup;
     char isMort;
 	instyp insured;
+	char insuredRound;
 } sqr;
 
 typedef struct Board{
