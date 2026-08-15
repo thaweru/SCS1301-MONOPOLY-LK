@@ -20,6 +20,10 @@ typedef enum PlyrStrat{
 
 typedef struct Square sqr;
 
+typedef struct Loan{
+    int principal;
+}loan;
+
 //Player attributes
 typedef struct Player{
 	char name[24];
@@ -32,7 +36,7 @@ typedef struct Player{
     char properties;
 	sqr *lastBuy;
     int NW;
-//	struct Loan;
+    loan Loan;
 } plyr;
 
 typedef enum sqrType{
@@ -84,6 +88,7 @@ typedef struct Square{
 	plyr *owner;
 	sqr *prevBuy;
 	sqr *nextofgroup;
+    char isMort;
 } sqr;
 
 typedef struct Board{
@@ -101,7 +106,7 @@ int dice(char *duble);
 game init_game(int n, char **arr);
 void start_game(plyr *plyrs, int n, int cash);
 plyr spawn_player(char n);
-void run_game(int N, int n, game g);
+void run_game(int N, int n, game *g);
 void landing_action(plyr *p, sqr *s, int roll, game *g);
 int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p, game *g);
@@ -110,7 +115,7 @@ int auction_bid(plyr p, sqr s, int nextBid);
 int projected_appriciation(sqr *s);
 char isMonopoly(game *g, plyr *p, sqr *s);
 char canBuild(game *g, sqr *s);
-void winner_of_game(game g);
+void winner_of_game(plyr *p);
 int total_assets(plyr *p, game *g);
 void find_cash(plyr *p, int dues);
 void dissolving_player(plyr *p);
