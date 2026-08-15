@@ -9,6 +9,7 @@ void run_game(int N, int n, game g){
 	short int rolled, prev;
 	while ((g.currRound < N)){
 		for (int i=0; i < n; i++){
+            if (P[i].cash == -1) continue; //when player is bankrupt
 			rolled = dice(&duble);
 			printf("%s rolled %i\n", P[i].name, rolled);
 			if (P[i].InJail == 0){
@@ -77,16 +78,18 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
                     p->cash -= tax_due;
                     p->income = 0;
                     printf("%s payed income tax of LKR %d\n", p->name, tax_due);
-                }
+                }else{find_cash(p, tax_due);}
             }
 			default: break;
 		}
 		if (rentdue > 0){
-			p->cash -= rentdue;
-			s->owner->cash += rentdue;
-            s->owner->income += rentdue;
-			printf("Rent paid : LKR %d\nOwner : %s\n",
-				rentdue, s->owner->name);
+            if (p->cash > rentdue){
+			    p->cash -= rentdue;
+			    s->owner->cash += rentdue;
+                s->owner->income += rentdue;
+			    printf("Rent paid : LKR %d\nOwner : %s\n",
+				    rentdue, s->owner->name);
+            }else{find_cash(p, rentdue);}
 		}
 	}
 		switch (s->group){
@@ -110,7 +113,7 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
                     p->cash -= tax_due;
                     p->income = 0;
                     printf("%s payed community development tax of LKR %d\n", p->name, tax_due);
-                }
+                }else{find_cash(p, tax_due);}
             }
 			default: break;
 
@@ -164,4 +167,13 @@ char winner_of_game(game g){
     }
     printf("%s wins the game.\n", g.player[maxindex].name);
     return maxindex;
+}
+
+void find_cash(plyr *p, int due){
+    printf("Not enough cash to pay LKR %d\n", due);
+    //TODO:Write the logic to morgauge a low value property to payit.
+    if(p->cash < due){
+        printf("%s is bankrupt.\n", p->name);
+        p->cash = -1;
+    }
 }

@@ -111,4 +111,5 @@ char isMonopoly(game *g, plyr *p, sqr *s);
 char canBuild(game *g, sqr *s);
 char winner_of_game(game g);
 int total_assets(plyr *p, game *g);
+void find_cash(plyr *p, int dues);
 #endif
