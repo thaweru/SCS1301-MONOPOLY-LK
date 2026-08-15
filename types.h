@@ -31,6 +31,7 @@ typedef struct Player{
 	char railutil;
     char properties;
 	sqr *lastBuy;
+    int NW;
 //	struct Loan;
 } plyr;
 
@@ -109,7 +110,8 @@ int auction_bid(plyr p, sqr s, int nextBid);
 int projected_appriciation(sqr *s);
 char isMonopoly(game *g, plyr *p, sqr *s);
 char canBuild(game *g, sqr *s);
-char winner_of_game(game g);
+void winner_of_game(game g);
 int total_assets(plyr *p, game *g);
 void find_cash(plyr *p, int dues);
+void dissolving_player(plyr *p);
 #endif

@@ -5,11 +5,15 @@
 void run_game(int N, int n, game g){
     plyr *P = g.player;
 	g.currRound = 0;
-	char duble;
+	char duble, players = PLAYERS;
 	short int rolled, prev;
-	while ((g.currRound < N)){
+	while ((g.currRound < N) && (players > 2)){
+        players = PLAYERS;
 		for (int i=0; i < n; i++){
-            if (P[i].cash == -1) continue; //when player is bankrupt
+            if (P[i].cash == -1){
+                players--;
+                continue; //when player is bankrupt
+            }
 			rolled = dice(&duble);
 			printf("%s rolled %i\n", P[i].name, rolled);
 			if (P[i].InJail == 0){
@@ -34,7 +38,8 @@ void run_game(int N, int n, game g){
         printf("=============================================\n");
         for (int i=0; i < n; i++){
             printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
-            printf("Net Worth : LKR %i\n", net_worth(&P[i], &g));
+            P[i].NW = net_worth(&P[i], &g);
+            printf("Net Worth : LKR %i\n", P[i].NW);
             //printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
             printf("---------------------------------------------\n");
         }
@@ -156,24 +161,47 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
     }
 }
 
-char winner_of_game(game g){
-    int maxworth = 0, worth = -START_CASH; char maxindex;
+void winner_of_game(game g){
+    plyr winner = g.player[PLAYERS-1];
     for(int i=0; i < PLAYERS; i++){
+        puts(winner.name);
+        if (g.player[i].NW < winner.NW){
+            winner = g.player[i];
+        }
+    }
+    printf("%s wins the game.\n", winner.name);
+    return;
+}
+
+    /**
+    int maxworth = 0, worth = -START_CASH; 
         worth = net_worth(&g.player[i], &g);
         if (maxworth < worth){
             maxindex = i;
             maxworth = worth;
         }
-    }
-    printf("%s wins the game.\n", g.player[maxindex].name);
-    return maxindex;
-}
-
+    }**/
 void find_cash(plyr *p, int due){
     printf("Not enough cash to pay LKR %d\n", due);
     //TODO:Write the logic to morgauge a low value property to payit.
     if(p->cash < due){
         printf("%s is bankrupt.\n", p->name);
+        dissolving_player(p);
         p->cash = -1;
+    }
+}
+
+void dissolving_player(plyr *p){
+    sqr *ptr = p->lastBuy;
+    while(ptr != NULL){
+        //worth += ptr->buyPrice;
+        //if(ptr->type == PROPERTY) proprties++;
+        //if(ptr->houses > 4) hotel++;
+        printf("owned %s\n", ptr->name);
+        ptr->owner = NULL;
+        sqr *tmp = ptr;
+        ptr = ptr->prevBuy;
+        tmp->prevBuy = NULL;
+        p->lastBuy = NULL;
     }
 }
