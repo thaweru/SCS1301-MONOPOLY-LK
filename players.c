@@ -24,27 +24,32 @@ plyr spawn_player(char n){
 		    break;
 	}
     p.cash = START_CASH; p.income = 0; p.pos = 0; p.InJail = 0;
-    p.railutil = 0; p.properties = 0; p.lastBuy = NULL; p.NW = 0;
+    p.railutil = 0; p.properties = 0; p.lastBuy = NULL; p.NW = START_CASH;
 	return p; 
 }
 
 int canBuy(plyr *p, sqr *s){
-	if (s->type != PROPERTY || s->type != RAILWAY || s->type != UTILITY) return 0;
+	if (s->type != PROPERTY && s->type != RAILWAY && s->type != UTILITY) return 0;
+	if (p->cash < s->buyPrice) return 0;
 	switch (p->strat){
 		case AGGRESSIVE_INVESTOR:
-			if ((p->cash-MAX_RENT) > s->buyPrice){
+			if ((p->cash - MAX_RENT) >= s->buyPrice){
                 if (s->type == PROPERTY){
                     if (plyrhasGroup(p, s->group) || p->properties == 0) return 1;
                 }else{
                     return 1;
                 }
-            }break;
+            }
+			break;
 		case CONSERVATIVE_BANKER:
-			if (p->cash/2 >= s->buyPrice) return 1; break;
+			if (p->cash / 2 >= s->buyPrice) return 1;
+			break;
 		case RISK_TAKER:
-			if (p->cash > s->buyPrice) return 1; break;
+			if (p->cash >= s->buyPrice) return 1;
+			break;
 		case OPPORTUNISTIC_TRADER:
-			if (projected_appriciation(s) > (s->houseCost*4 + s->hotelCost)) return 1; break;
+			if (projected_appreciation(s) >= s->houseCost || s->type != PROPERTY) return 1;
+			break;
 	}
 	return 0;
 }
@@ -54,13 +59,13 @@ int auction_bid(plyr p, sqr s, int nextBid){
 	char decision = 0;
 	switch (p.strat){
 		case AGGRESSIVE_INVESTOR:
-			if (nextBid < (s.buyPrice * 120)/100) decision = 1;
+			if (nextBid <= (s.buyPrice * 120) / 100) decision = 1;
 			break;
 		case CONSERVATIVE_BANKER:
-			if (nextBid < s.buyPrice) decision = 1;
+			if (nextBid <= s.buyPrice && (p.cash - nextBid) >= p.cash / 2) decision = 1;
 			break;
 		case RISK_TAKER:
-			if (nextBid < p.cash) decision = 1;
+			if (nextBid <= (s.buyPrice * 150) / 100 && nextBid <= p.cash) decision = 1;
 			break;
 		case OPPORTUNISTIC_TRADER:
 			if (nextBid <= s.buyPrice) decision = 1;
@@ -70,9 +75,7 @@ int auction_bid(plyr p, sqr s, int nextBid){
 	if (decision == 1){
 		printf("%s bids LKR %d\n", p.name, nextBid);
 		return nextBid;
-	}//else{
-		//printf("%s passes.\n", p.name);
-	//}
+	}
 	return 0;
 }
 

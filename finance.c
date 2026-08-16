@@ -1,20 +1,33 @@
 #include "types.h"
 #include <stdio.h>
 
+void add_property_to_player(plyr *p, sqr *s){
+    s->owner = p;
+    s->prevBuy = p->lastBuy;
+    p->lastBuy = s;
+    switch (s->type){
+        case PROPERTY: p->properties++; break;
+        case RAILWAY: p->railutil++; break;
+        case UTILITY: p->railutil += 16; break;
+        default: break;
+    }
+}
+
 int total_assets(plyr *p){
-    int worth = 0;
-    char hotel = 0, house = 0, proprties = 0;
-    //for (int i =0; i < 40; i++){if (g->square[i].owner == p){worth += g->square[i].buyPrice;}}
+    if (p->cash < 0) return -1;
+    int worth = p->cash;
     sqr *ptr = p->lastBuy;
     while(ptr != NULL){
         worth += ptr->buyPrice;
-        if(ptr->type == PROPERTY) proprties++;
-        if(ptr->houses > 4) hotel++;
-        printf("owns %s\n", ptr->name);
+        if(ptr->type == PROPERTY){
+            if (ptr->houses > 0 && ptr->houses <= 4){
+                worth += ptr->houses * ptr->houseCost;
+            } else if (ptr->houses == 5){
+                worth += (4 * ptr->houseCost) + ptr->hotelCost;
+            }
+        }
         ptr = ptr->prevBuy;
     }
-    printf("\n");
-    worth += p->cash; puts("");
     return worth;
 }
 
@@ -23,65 +36,68 @@ int net_worth(plyr *p){
 }
 
 int isBankrupt(plyr *p){
-    if (p->cash <= 0) return 1;
+    if (p->cash < 0) return 1;
     return 0;
 }
 
 void auction(sqr *s, game *g){
-    int currentBid = s->buyPrice/2, nextBid;
-    char count = 0;
+    int currentBid = s->buyPrice / 2;
     plyr *highestBidder = NULL;
+    int bidsInRound;
     printf("Auction for %s starting at LKR %d\n", s->name, currentBid);
-    do{
-        count = 0;
-        nextBid = currentBid + BID_INCREMENT;
+    do {
+        bidsInRound = 0;
         for (int i = 0; i < PLAYERS; i++){
-            if ((auction_bid(g->player[i], *s, nextBid))){
+            if (g->player[i].cash < 0) continue;
+            if (&g->player[i] == highestBidder) continue;
+            int nextBid = currentBid + BID_INCREMENT;
+            if (auction_bid(g->player[i], *s, nextBid)){
                 highestBidder = &g->player[i];
                 currentBid = nextBid;
-                count++;
+                bidsInRound++;
             }
         }
-    } while (count > 1);
+    } while (bidsInRound > 0);
+
     if (highestBidder != NULL){
         printf("%s wins the auction for %s at LKR %d\n", highestBidder->name, s->name, currentBid);
         highestBidder->cash -= currentBid;
-        s->owner = highestBidder;
+        add_property_to_player(highestBidder, s);
     }else{
         printf("No bids were placed for %s\n", s->name);
     }
 }
 
-int projected_appriciation(sqr *s){
-    int appriciation = 0;
+int projected_appreciation(sqr *s){
+    int appreciation = 0;
     switch (s->group){
         case BROWN:
-            appriciation = 1000;
+            appreciation = 1000;
             break;
         case LIGHT_BLUE:
-            appriciation = 2000;
+            appreciation = 2000;
             break;
         case PINK:
-            appriciation = 3000;
+            appreciation = 3000;
             break;
         case ORANGE:
-            appriciation = 4000;
+            appreciation = 4000;
             break;
         case RED:
-            appriciation = 5000;
+            appreciation = 5000;
             break;
         case YELLOW:
-            appriciation = 6000;
+            appreciation = 6000;
             break;
         case GREEN:
-            appriciation = 7000;
+            appreciation = 7000;
             break;
         case DARK_BLUE:
-            appriciation = 8000;
+            appreciation = 8000;
             break;
         default:
-            appriciation = 0;
+            appreciation = 0;
             break;
     }
-    return appriciation;
+    return appreciation;
 }

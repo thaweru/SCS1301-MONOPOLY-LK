@@ -112,12 +112,14 @@ int canBuy(plyr *p, sqr *s);
 int net_worth(plyr *p);
 void auction(sqr *s, game *g);
 int auction_bid(plyr p, sqr s, int nextBid);
-int projected_appriciation(sqr *s);
+int projected_appreciation(sqr *s);
 char isMonopoly(game *g, plyr *p, sqr *s);
 char canBuild(game *g, sqr *s);
 void winner_of_game(plyr *p);
 int total_assets(plyr *p);
-void find_cash(plyr *p, int dues);
+void find_cash(plyr *p, int dues, plyr *creditor);
 void dissolving_player(plyr *p);
-char plyrhasGroup(plyr *p, sqrgrp group);//aggresive investor
+char plyrhasGroup(plyr *p, sqrgrp group);
+void add_property_to_player(plyr *p, sqr *s);
+int isBankrupt(plyr *p);
 #endif
