@@ -5,6 +5,7 @@
 void initGame(Game *game, unsigned int seed) {
     srand(seed);
     initBoard(game->board);
+    printf("Seed : %u\n", seed);
     initPlayers(game->players);
     initEvents(game);
     game->currentRound = 1;
