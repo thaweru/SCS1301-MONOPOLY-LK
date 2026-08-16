@@ -2,6 +2,8 @@
 #include <stdio.h>
 #define PASS_GO_CASH 2000
 
+void round_end_plyr_stat(plyr *p);
+
 void run_game(int N, int n, game *g){
     plyr *P = g->player;
 	g->currRound = 0;
@@ -33,18 +35,24 @@ void run_game(int N, int n, game *g){
 			}
 			puts("");
 		}
-        printf("=============================================\n");
-        printf("Round %d Summery\n", g->currRound+1);
-        printf("=============================================\n");
-        for (int i=0; i < n; i++){
-            printf("%s\nCash : LKR %d\n", P[i].name, P[i].cash);
-            P[i].NW = net_worth(&P[i], g);
-            printf("Net Worth : LKR %i\n", P[i].NW);
-            //printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
-            printf("---------------------------------------------\n");
-        }
 		g->currRound++;
+        printf("=============================================\n");
+        printf("Round %d Summery\n", g->currRound);
+        printf("=============================================\n");
+        for (int i=0; i < PLAYERS; i++){
+            round_end_plyr_stat(&g->player[i]);
+        }
 	}
+}
+
+void round_end_plyr_stat(plyr *p){
+    printf("%s\nCash : LKR %d\n", p->name, p->cash);
+    p->NW = net_worth(p);
+    printf("Net Worth : LKR %i\n", p->NW);
+    printf("Properties : %d\n", p->properties);
+    if (p->railutil > 0) printf("Railway : %d Utilities : %d\n", p->railutil%16, p->railutil/16);
+    //printf("Proprties : %d\n", (P[i].properties + (P[i].railutil%16) + (P[i].railutil/16)));
+    printf("---------------------------------------------\n");
 }
 
 void landing_action(plyr *p, sqr *s, int roll, game *g){
@@ -113,7 +121,7 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 					printf("%s is in Jail\n", p->name);
 				}
             case CD_FUND:{
-                int tax_due = (total_assets(p, g)*COM_DEV_TAX)/100;
+                int tax_due = (total_assets(p)*COM_DEV_TAX)/100;
                 if(p->cash > tax_due){
                     p->cash -= tax_due;
                     p->income = 0;
@@ -134,12 +142,12 @@ void landing_action(plyr *p, sqr *s, int roll, game *g){
 				s->prevBuy = p->lastBuy;
 				p->lastBuy = s;
 			}
-			/**switch (s->type){
+			switch (s->type){
 				case PROPERTY: p->properties++; break;
 				case RAILWAY: p->railutil++; break;
 				case UTILITY: p->railutil += 16; break;
 				default: break;
-			}**/
+			}
 			printf("%s purchased %s for LKR %d.\nCurrent Balance : LKR %d\n", 
 				p->name, s->name, s->buyPrice, p->cash);
 		}else{

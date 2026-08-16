@@ -2,7 +2,7 @@
 #define TYPES_H
 
 #define PLAYERS 4
-#define MAX_ROUNDS 10
+#define MAX_ROUNDS 500
 #define SQUARES 40
 #define START_CASH 30000
 #define BID_INCREMENT 250
@@ -109,14 +109,15 @@ plyr spawn_player(char n);
 void run_game(int N, int n, game *g);
 void landing_action(plyr *p, sqr *s, int roll, game *g);
 int canBuy(plyr *p, sqr *s);
-int net_worth(plyr *p, game *g);
+int net_worth(plyr *p);
 void auction(sqr *s, game *g);
 int auction_bid(plyr p, sqr s, int nextBid);
 int projected_appriciation(sqr *s);
 char isMonopoly(game *g, plyr *p, sqr *s);
 char canBuild(game *g, sqr *s);
 void winner_of_game(plyr *p);
-int total_assets(plyr *p, game *g);
+int total_assets(plyr *p);
 void find_cash(plyr *p, int dues);
 void dissolving_player(plyr *p);
+char plyrhasGroup(plyr *p, sqrgrp group);//aggresive investor
 #endif

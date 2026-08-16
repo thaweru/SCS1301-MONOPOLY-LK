@@ -157,7 +157,7 @@ resort:
 
 char isMonopoly(game *g, plyr *p, sqr *s){
     char itis = 1;
-    for(int i=0; i < PLAYERS; i++){
+    for(int i=0; i < SQUARES; i++){
         if((g->square[i].group == s->group)&&(g->square[i].owner != p)){
             itis = 0;
         }
@@ -167,7 +167,7 @@ char isMonopoly(game *g, plyr *p, sqr *s){
 
 char canBuild(game *g, sqr *s){
     char count = 0, houses = 0;
-    for(int i=0; i < PLAYERS; i++){
+    for(int i=0; i < SQUARES; i++){
         if(g->square[i].group == s->group){
             count++;
             houses += g->square[i].houses;

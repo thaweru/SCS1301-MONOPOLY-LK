@@ -29,17 +29,22 @@ plyr spawn_player(char n){
 }
 
 int canBuy(plyr *p, sqr *s){
-	if (s->type == PROPERTY || s->type == RAILWAY || s->type == UTILITY){
-		switch (p->strat){
-			case AGGRESSIVE_INVESTOR:
-				if ((p->cash-MAX_RENT) > s->buyPrice) return 1; break;
-			case CONSERVATIVE_BANKER:
-				if (p->cash/2 >= s->buyPrice) return 1; break;
-			case RISK_TAKER:
-				if (p->cash > s->buyPrice) return 1; break;
-			case OPPORTUNISTIC_TRADER:
-				if (projected_appriciation(s) > (s->houseCost*4 + s->hotelCost)) return 1; break;
-		}
+	if (s->type != PROPERTY || s->type != RAILWAY || s->type != UTILITY) return 0;
+	switch (p->strat){
+		case AGGRESSIVE_INVESTOR:
+			if ((p->cash-MAX_RENT) > s->buyPrice){
+                if (s->type == PROPERTY){
+                    if (plyrhasGroup(p, s->group) || p->properties == 0) return 1;
+                }else{
+                    return 1;
+                }
+            }break;
+		case CONSERVATIVE_BANKER:
+			if (p->cash/2 >= s->buyPrice) return 1; break;
+		case RISK_TAKER:
+			if (p->cash > s->buyPrice) return 1; break;
+		case OPPORTUNISTIC_TRADER:
+			if (projected_appriciation(s) > (s->houseCost*4 + s->hotelCost)) return 1; break;
 	}
 	return 0;
 }
@@ -69,4 +74,14 @@ int auction_bid(plyr p, sqr s, int nextBid){
 		//printf("%s passes.\n", p.name);
 	//}
 	return 0;
+}
+
+char plyrhasGroup(plyr *p, sqrgrp group){
+    char has = 0;
+    sqr *ptr = p->lastBuy;
+    while(ptr != NULL){
+        if (ptr->group == group) has = 1;
+        ptr = ptr->prevBuy;
+    }
+    return has;
 }
