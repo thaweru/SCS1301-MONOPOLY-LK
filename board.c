@@ -1,4 +1,4 @@
-#include "board.h"
+#include "types.h"
 #include <string.h>
 
 void initBoard(Square board[BOARD_SIZE]) {

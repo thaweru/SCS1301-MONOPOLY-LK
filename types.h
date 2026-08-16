@@ -271,4 +271,80 @@ typedef struct Game {
     int winnerId;
 } Game;
 
+//board.h
+void initBoard(Square board[BOARD_SIZE]);
+int countPropertiesInGroup(PropertyGroup grp);
+int countOwnedInGroup(const Square board[BOARD_SIZE], PropertyGroup grp, int playerId);
+int hasMonopoly(const Square board[BOARD_SIZE], PropertyGroup grp, int playerId);
+int countStationsOwned(const Square board[BOARD_SIZE], int playerId);
+int countUtilitiesOwned(const Square board[BOARD_SIZE], int playerId);
+const char* getGroupName(PropertyGroup grp);
+const char* getRegionName(RegionType reg);
+
+//game.h
+void initGame(Game *game, unsigned int seed);
+void determineTurnOrder(Game *game);
+void runGame(Game *game);
+void triggerAuction(Game *game, int propertyIndex);
+void declareBankruptcy(Game *game, int playerId);
+void printRoundSummary(const Game *game);
+void printMarketConditions(const Game *game);
+void printGameOverSummary(const Game *game);
+
+//players.h
+void initPlayers(Player players[NUM_PLAYERS]);
+
+int playerDecidePurchase(Game *game, int playerId, int squareIndex);
+int playerDecideAuctionBid(Game *game, int playerId, const Auction *auction);
+int playerDecideTakeLoan(Game *game, int playerId);
+int playerDecideRepayLoan(Game *game, int playerId);
+InsuranceType playerDecideInsurance(Game *game, int playerId, int propertyIndex);
+void playerPerformTurnMaintenance(Game *game, int playerId);
+void playerPerformTurnConstruction(Game *game, int playerId);
+void playerPerformTurnRenovation(Game *game, int playerId);
+
+//finance.h
+int getPropertyMarketValue(const Game *game, int propertyIndex);
+int getBuildingValue(const Game *game, int propertyIndex);
+int getHouseConstructionCost(const Game *game, int propertyIndex);
+int getHotelConstructionCost(const Game *game, int propertyIndex);
+int calculateRent(const Game *game, int propertyIndex, int diceRoll);
+int calculateNetWorth(const Game *game, int playerId);
+int calculateTotalPropertyMarketValue(const Game *game, int playerId);
+
+int getPrevailingLoanInterestRate(const Game *game);
+int calculateMaxLoan(const Game *game, int playerId, const int *collateralIndices, int numCollateral);
+int takeLoan(Game *game, int playerId, const int *collateralIndices, int numCollateral);
+int repayLoan(Game *game, int playerId, int amount);
+int refinanceLoan(Game *game, int playerId);
+void accrueInterest(Game *game);
+void checkLoanDefaults(Game *game);
+
+int getInsurancePremium(const Game *game, int propertyIndex, InsuranceType type);
+int purchaseInsurance(Game *game, int playerId, int propertyIndex, InsuranceType type);
+void checkInsuranceExpiry(Game *game);
+void triggerDisasterCheck(Game *game);
+
+int calculateIncomeTax(const Game *game, int playerId);
+int calculateCDFTax(const Game *game, int playerId);
+int payPlayerTax(Game *game, int playerId, int taxAmount, const char *taxName);
+
+void updatePropertyAgeAndCondition(Game *game);
+int renovateForDepreciation(Game *game, int playerId, int propertyIndex);
+int performBuildingMaintenance(Game *game, int playerId, int propertyIndex);
+int repairStructuralDamage(Game *game, int playerId, int propertyIndex);
+
+void updateInflation(Game *game);
+
+int handlePlayerPayment(Game *game, int payerId, int payeeId, int amount, const char *reason);
+
+//events.h
+void initEvents(Game *game);
+void checkDynamicMarket(Game *game);
+void checkRegionalCard(Game *game);
+void checkGlobalEconomicEvent(Game *game);
+void checkGovernmentRegulation(Game *game);
+void updateRoundEvents(Game *game);
+void drawNationalEventCard(Game *game, int playerId);
+
 #endif /* TYPES_H */

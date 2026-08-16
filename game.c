@@ -1,9 +1,4 @@
-#include "game.h"
-#include "board.h"
-#include "players.h"
-#include "finance.h"
-#include "events.h"
-#include <stdio.h>
+#include "types.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -21,7 +16,55 @@ void initGame(Game *game, unsigned int seed) {
     }
 }
 
+int dice_roll(char *duble){
+    int d1 = (rand() % 6) + 1;
+    int d2 = (rand() % 6) + 1;
+    if (d1 == d2){
+        *duble = 1;
+    }else{
+        *duble = 0;
+    }
+    return d1 + d2;
+}
+
 void determineTurnOrder(Game *game) {
+	/**struct keyval{
+		Player a;
+		int k;
+        char same;
+	} p[NUM_PLAYERS], temp;
+    char duble;
+    for (int i = 0; i < NUM_PLAYERS; i++) {
+        p[i].a = game->players[i];
+        p[i].k = dice_roll(&duble);
+        p[i].same = 0;
+        printf("%s rolls %d.\n", p[i].a.name, p[i].k);
+    }
+    int start = 0, stop = NUM_PLAYERS, start_temp, stop_temp;
+    resort:
+    for (int i=start; i < stop; i++){
+        for (int j=start; j < stop-1; j++){
+            if (p[j].k < p[j+1].k){
+                temp = p[j];
+                p[j] = p[j+1];
+                p[j+1] = temp;
+            }
+            if (p[j].k == p[j+1].k){
+                p[j] = p[j+1] = 255;
+            }
+        }
+    }
+    stop_temp = start; start_temp = stop;
+    for (int i=start; i < stop; i++){
+        if (p[i].same){
+            p[i].k = dice_roll(&duble);
+            p[i].same = 0;
+            printf("%s re-rolls %d.\n", p[i].a.name, p[i].k);
+            if (i < stop_temp) stop_temp = i;
+            if (i > start_temp) start_temp = i;
+        }
+    }
+    if ()**/
     int rolls[NUM_PLAYERS];
     int highestRoll = -1;
     int startingPlayer = 0;
