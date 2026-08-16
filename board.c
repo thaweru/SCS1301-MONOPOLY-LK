@@ -3,7 +3,6 @@
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
-#include <limits.h>
 
 sqrgrp property_group(char *str){
 	if (strcmp(str, "Brown") == 0) return BROWN;
@@ -38,7 +37,7 @@ game init_game(int n, char **arr){
 	unsigned int seed;
 	if (n == 2){
 		char *str = arr[1];
-		seed = (unsigned int)(strtol(str, NULL, 10) % UINT_MAX);
+		seed = strtol(str, NULL, 10) % UINT_MAX;
 	}else{
 		seed = time(NULL);
 	}
@@ -114,40 +113,49 @@ void start_game(plyr *plyrs, int n, int cash){
 	struct keyval{
 		plyr a;
 		int k;
+		char same;
 	} p[n], tmp;
 	char d;
 	for (int i=0; i < n; i++){
 		p[i].a = spawn_player(i);
+		//p[i].a.cash = cash;
 		p[i].k = dice(&d);
+		//printf("%s rolls %d\n", p[i].a.name, p[i].k);
+		p[i].same = 0;
 	}
 
 	for (int i=0; i < n; i++) printf("Player %d : %s\n", i+1,  p[i].a.name);
 	printf("\nEach player begins with LKR %d\n\n", cash);
 	for (int i=0; i < n; i++) printf("%s rolls %d\n", p[i].a.name, p[i].k);
 
-	int has_tie = 1;
-	while (has_tie){
-		for (int i=0; i < n-1; i++){
-			for (int j=0; j < n-1-i; j++){
-				if (p[j].k < p[j+1].k){
-					tmp = p[j];
-					p[j] = p[j+1];
-					p[j+1] = tmp;
-				}
+	//bubble sort
+	int a=0, b=n, f, e;
+resort:
+	for (int i=a; i < b; i++){
+		for (int j=a; j < (b-1); j++){
+			if(p[j].k < p[j+1].k){
+				tmp = p[j];
+				p[j] = p[j+1];
+				p[j+1] = tmp;
 			}
-		}
-		has_tie = 0;
-		for (int i=0; i < n-1; i++){
-			if (p[i].k == p[i+1].k){
-				has_tie = 1;
-				p[i].k = dice(&d);
-				p[i+1].k = dice(&d);
-				printf("%s re-rolls %d\n", p[i].a.name, p[i].k);
-				printf("%s re-rolls %d\n", p[i+1].a.name, p[i+1].k);
+			if(p[j].k == p[j+1].k){	
+				p[j].same = 255;
+				p[j+1].same = 255;
 			}
 		}
 	}
-
+	f = b; e = a;
+	for (int i=a; i < b; i++){
+		//puts(p[i].a.name);
+		if (p[i].same){
+			p[i].k = dice(&d);
+			p[i].same = 0;
+			printf("%s re-rolls %d\n", p[i].a.name, p[i].k);
+			if (i < f) f = i;
+			if (i > e) e = i;
+		}
+	}
+	if ((f!=b)||(e!=a)){ a = f; b = e; goto resort; }
 	puts("");
 	printf("%s will begin the game\n", p[0].a.name);
 	puts("\nTurn order:");
@@ -158,25 +166,23 @@ void start_game(plyr *plyrs, int n, int cash){
 }
 
 char isMonopoly(game *g, plyr *p, sqr *s){
-	if (s->type != PROPERTY || s->group == NONE) return 0;
-	for(int i=0; i < SQUARES; i++){
-		if((g->square[i].group == s->group) && (g->square[i].type == PROPERTY)){
-			if (g->square[i].owner != p){
-				return 0;
-			}
-		}
-	}
-	return 1;
+    char itis = 1;
+    for(int i=0; i < SQUARES; i++){
+        if((g->square[i].group == s->group)&&(g->square[i].owner != p)){
+            itis = 0;
+        }
+    }
+    return itis;
 }
 
 char canBuild(game *g, sqr *s){
-	if (s->type != PROPERTY || s->group == NONE || s->houses >= 5) return 0;
-	for(int i=0; i < SQUARES; i++){
-		if((g->square[i].group == s->group) && (g->square[i].type == PROPERTY)){
-			if (s->houses > g->square[i].houses){
-				return 0;
-			}
-		}
-	}
-	return 1;
+    char count = 0, houses = 0;
+    for(int i=0; i < SQUARES; i++){
+        if(g->square[i].group == s->group){
+            count++;
+            houses += g->square[i].houses;
+        }
+    }
+    if ((houses/count) >= s->houses) return 1;
+    return 0;
 }
