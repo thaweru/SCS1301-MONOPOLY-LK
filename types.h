@@ -272,6 +272,7 @@ typedef struct Game {
 } Game;
 
 //board.h
+int loadBoardFromCSV(Square *board, const char *filename);
 void initBoard(Square board[BOARD_SIZE]);
 int countPropertiesInGroup(PropertyGroup grp);
 int countOwnedInGroup(const Square board[BOARD_SIZE], PropertyGroup grp, int playerId);

@@ -1,5 +1,8 @@
 #include "types.h"
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 void initBoard(Square board[BOARD_SIZE]) {
     for (int i = 0; i < BOARD_SIZE; i++) {
@@ -31,340 +34,146 @@ void initBoard(Square board[BOARD_SIZE]) {
         board[i].baseHouseCost = 0;
         board[i].baseHotelCost = 0;
     }
+    loadBoardFromCSV(board, "board_data.csv");
+}
 
-    /* 0: GO */
-    board[0].type = SQ_START;
-    strncpy(board[0].name, "GO", sizeof(board[0].name));
+SquareType stringToSquareType(const char *str) {
+    if (strcmp(str, "START") == 0) return SQ_START;
+    if (strcmp(str, "PROPERTY") == 0) return SQ_PROPERTY;
+    if (strcmp(str, "EVENT") == 0) return SQ_EVENT;
+    if (strcmp(str, "TAX") == 0) return SQ_TAX;
+    if (strcmp(str, "RAILWAY") == 0) return SQ_RAILWAY;
+    if (strcmp(str, "UTILITY") == 0) return SQ_UTILITY;
+    if (strcmp(str, "SPECIAL") == 0) return SQ_SPECIAL;
+    if (strcmp(str, "INSURANCE") == 0) return SQ_INSURANCE;
+    if (strcmp(str, "BANK") == 0) return SQ_BANK;
+    return SQ_START;
+}
 
-    /* 1: Pettah */
-    board[1].type = SQ_PROPERTY;
-    strncpy(board[1].name, "Pettah", sizeof(board[1].name));
-    board[1].group = GRP_BROWN;
-    board[1].region = REG_COLOMBO_COMMERCIAL;
-    board[1].basePurchasePrice = 1200;
-    board[1].baseRental = 120;
-    board[1].baseHouseCost = 500;
-    board[1].baseHotelCost = 2000;
-    board[1].baseMortgageValue = 750;
+PropertyGroup stringToPropertyGroup(const char *str) {
+    if (strlen(str) == 0) return -1;  /* No group */
+    if (strcmp(str, "BROWN") == 0) return GRP_BROWN;
+    if (strcmp(str, "LIGHT_BLUE") == 0) return GRP_LIGHT_BLUE;
+    if (strcmp(str, "PINK") == 0) return GRP_PINK;
+    if (strcmp(str, "ORANGE") == 0) return GRP_ORANGE;
+    if (strcmp(str, "RED") == 0) return GRP_RED;
+    if (strcmp(str, "YELLOW") == 0) return GRP_YELLOW;
+    if (strcmp(str, "GREEN") == 0) return GRP_GREEN;
+    if (strcmp(str, "DARK_BLUE") == 0) return GRP_DARK_BLUE;
+    return -1;
+}
 
-    /* 2: Community Development Fund */
-    board[2].type = SQ_EVENT;
-    strncpy(board[2].name, "Community Development Fund", sizeof(board[2].name));
+RegionType stringToRegion(const char *str) {
+    if (strlen(str) == 0) return -1;  /* No region */
+    if (strcmp(str, "COLOMBO_COMMERCIAL") == 0) return REG_COLOMBO_COMMERCIAL;
+    if (strcmp(str, "WESTERN_COASTAL") == 0) return REG_WESTERN_COASTAL;
+    if (strcmp(str, "WESTERN_RESIDENTIAL") == 0) return REG_WESTERN_RESIDENTIAL;
+    if (strcmp(str, "CENTRAL_HILL") == 0) return REG_CENTRAL_HILL;
+    if (strcmp(str, "WESTERN_AIRPORT") == 0) return REG_WESTERN_AIRPORT;
+    if (strcmp(str, "SOUTHERN_PROVINCE") == 0) return REG_SOUTHERN_PROVINCE;
+    if (strcmp(str, "NORTHERN_PROVINCE") == 0) return REG_NORTHERN_PROVINCE;
+    if (strcmp(str, "EASTERN_PROVINCE") == 0) return REG_EASTERN_PROVINCE;
+    if (strcmp(str, "PRIME_LUXURY") == 0) return REG_PRIME_LUXURY;
+    return -1;
+}
 
-    /* 3: Maradana */
-    board[3].type = SQ_PROPERTY;
-    strncpy(board[3].name, "Maradana", sizeof(board[3].name));
-    board[3].group = GRP_BROWN;
-    board[3].region = REG_COLOMBO_COMMERCIAL;
-    board[3].basePurchasePrice = 1500;
-    board[3].baseRental = 150;
-    board[3].baseHouseCost = 500;
-    board[3].baseHotelCost = 2000;
-    board[3].baseMortgageValue = 750;
+int loadBoardFromCSV(Square *board, const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        fprintf(stderr, "Error: Could not open file '%s'\n", filename);
+        return -1;
+    }
 
-    /* 4: Income Tax */
-    board[4].type = SQ_TAX;
-    strncpy(board[4].name, "Income Tax", sizeof(board[4].name));
+    char line[1024];
+    int lineNum = 0;
+    
+    /* Skip header line */
+    if (fgets(line, sizeof(line), file) == NULL) {
+        fprintf(stderr, "Error: File is empty\n");
+        fclose(file);
+        return -1;
+    }
 
-    /* 5: Colombo Fort Railway Station */
-    board[5].type = SQ_RAILWAY;
-    strncpy(board[5].name, "Colombo Fort Railway Station", sizeof(board[5].name));
-    board[5].region = REG_COLOMBO_COMMERCIAL;
-    board[5].basePurchasePrice = 2000;
-    board[5].baseRental = 250;
-    board[5].baseMortgageValue = 1000;
+    /* Parse data lines */
+    while (fgets(line, sizeof(line), file) != NULL) {
+        lineNum++;
+        
+        /* Remove newline */
+        line[strcspn(line, "\n")] = 0;
+        
+        /* Skip empty lines */
+        if (strlen(line) == 0) continue;
 
-    /* 6: Bambalapitiya */
-    board[6].type = SQ_PROPERTY;
-    strncpy(board[6].name, "Bambalapitiya", sizeof(board[6].name));
-    board[6].group = GRP_LIGHT_BLUE;
-    board[6].region = REG_WESTERN_COASTAL;
-    board[6].basePurchasePrice = 2400;
-    board[6].baseRental = 240;
-    board[6].baseHouseCost = 750;
-    board[6].baseHotelCost = 3000;
-    board[6].baseMortgageValue = 1250;
+        /* Parse CSV line */
+        char *token;
+        char lineCopy[1024];
+        strncpy(lineCopy, line, sizeof(lineCopy) - 1);
+        lineCopy[sizeof(lineCopy) - 1] = 0;
 
-    /* 7: National Event Card */
-    board[7].type = SQ_EVENT;
-    strncpy(board[7].name, "National Event Card", sizeof(board[7].name));
+        int squareId = -1;
+        char name[256] = "";
+        char typeStr[64] = "";
+        char groupStr[64] = "";
+        char regionStr[64] = "";
+        int purchasePrice = 0;
+        int rental = 0;
+        int houseCost = 0;
+        int hotelCost = 0;
+        int mortgageValue = 0;
 
-    /* 8: Wellawatte */
-    board[8].type = SQ_PROPERTY;
-    strncpy(board[8].name, "Wellawatte", sizeof(board[8].name));
-    board[8].group = GRP_LIGHT_BLUE;
-    board[8].region = REG_WESTERN_COASTAL;
-    board[8].basePurchasePrice = 2500;
-    board[8].baseRental = 250;
-    board[8].baseHouseCost = 750;
-    board[8].baseHotelCost = 3000;
-    board[8].baseMortgageValue = 1250;
+        /* Parse comma-separated values */
+        int fieldNum = 0;
+        token = strtok(lineCopy, ",");
+        
+        while (token != NULL && fieldNum < 10) {
+            /* Trim whitespace */
+            while (isspace(*token)) token++;
+            char *end = token + strlen(token) - 1;
+            while (end > token && isspace(*end)) {
+                *end = 0;
+                end--;
+            }
 
-    /* 9: Mount Lavinia */
-    board[9].type = SQ_PROPERTY;
-    strncpy(board[9].name, "Mount Lavinia", sizeof(board[9].name));
-    board[9].group = GRP_LIGHT_BLUE;
-    board[9].region = REG_WESTERN_COASTAL;
-    board[9].basePurchasePrice = 2800;
-    board[9].baseRental = 280;
-    board[9].baseHouseCost = 750;
-    board[9].baseHotelCost = 3000;
-    board[9].baseMortgageValue = 1250;
+            switch (fieldNum) {
+                case 0: squareId = atoi(token); break;
+                case 1: strncpy(name, token, sizeof(name) - 1); break;
+                case 2: strncpy(typeStr, token, sizeof(typeStr) - 1); break;
+                case 3: strncpy(groupStr, token, sizeof(groupStr) - 1); break;
+                case 4: strncpy(regionStr, token, sizeof(regionStr) - 1); break;
+                case 5: purchasePrice = (strlen(token) > 0) ? atoi(token) : 0; break;
+                case 6: rental = (strlen(token) > 0) ? atoi(token) : 0; break;
+                case 7: houseCost = (strlen(token) > 0) ? atoi(token) : 0; break;
+                case 8: hotelCost = (strlen(token) > 0) ? atoi(token) : 0; break;
+                case 9: mortgageValue = (strlen(token) > 0) ? atoi(token) : 0; break;
+            }
+            
+            fieldNum++;
+            token = strtok(NULL, ",");
+        }
 
-    /* 10: Jail / Just Visiting */
-    board[10].type = SQ_SPECIAL;
-    strncpy(board[10].name, "Jail / Just Visiting", sizeof(board[10].name));
+        /* Validate square ID */
+        if (squareId < 0 || squareId >= 40) {
+            fprintf(stderr, "Warning: Invalid square ID %d at line %d\n", squareId, lineNum + 1);
+            continue;
+        }
 
-    /* 11: Nugegoda */
-    board[11].type = SQ_PROPERTY;
-    strncpy(board[11].name, "Nugegoda", sizeof(board[11].name));
-    board[11].group = GRP_PINK;
-    board[11].region = REG_WESTERN_RESIDENTIAL;
-    board[11].basePurchasePrice = 3200;
-    board[11].baseRental = 320;
-    board[11].baseHouseCost = 1000;
-    board[11].baseHotelCost = 4000;
-    board[11].baseMortgageValue = 1750;
+        /* Populate board square */
+        board[squareId].type = stringToSquareType(typeStr);
+        strncpy(board[squareId].name, name, sizeof(board[squareId].name) - 1);
+        board[squareId].name[sizeof(board[squareId].name) - 1] = 0;
+        
+        board[squareId].group = stringToPropertyGroup(groupStr);
+        board[squareId].region = stringToRegion(regionStr);
+        board[squareId].basePurchasePrice = purchasePrice;
+        board[squareId].baseRental = rental;
+        board[squareId].baseHouseCost = houseCost;
+        board[squareId].baseHotelCost = hotelCost;
+        board[squareId].baseMortgageValue = mortgageValue;
+    }
 
-    /* 12: Ceylon Electricity Board */
-    board[12].type = SQ_UTILITY;
-    strncpy(board[12].name, "Ceylon Electricity Board", sizeof(board[12].name));
-    board[12].basePurchasePrice = 2500;
-    board[12].baseMortgageValue = 1250;
-
-    /* 13: Maharagama */
-    board[13].type = SQ_PROPERTY;
-    strncpy(board[13].name, "Maharagama", sizeof(board[13].name));
-    board[13].group = GRP_PINK;
-    board[13].region = REG_WESTERN_RESIDENTIAL;
-    board[13].basePurchasePrice = 3500;
-    board[13].baseRental = 350;
-    board[13].baseHouseCost = 1000;
-    board[13].baseHotelCost = 4000;
-    board[13].baseMortgageValue = 1750;
-
-    /* 14: Kottawa */
-    board[14].type = SQ_PROPERTY;
-    strncpy(board[14].name, "Kottawa", sizeof(board[14].name));
-    board[14].group = GRP_PINK;
-    board[14].region = REG_WESTERN_RESIDENTIAL;
-    board[14].basePurchasePrice = 3800;
-    board[14].baseRental = 380;
-    board[14].baseHouseCost = 1000;
-    board[14].baseHotelCost = 4000;
-    board[14].baseMortgageValue = 1750;
-
-    /* 15: Kandy Railway Station */
-    board[15].type = SQ_RAILWAY;
-    strncpy(board[15].name, "Kandy Railway Station", sizeof(board[15].name));
-    board[15].region = REG_CENTRAL_HILL;
-    board[15].basePurchasePrice = 2000;
-    board[15].baseRental = 250;
-    board[15].baseMortgageValue = 1000;
-
-    /* 16: Negombo */
-    board[16].type = SQ_PROPERTY;
-    strncpy(board[16].name, "Negombo", sizeof(board[16].name));
-    board[16].group = GRP_ORANGE;
-    board[16].region = REG_WESTERN_AIRPORT;
-    board[16].basePurchasePrice = 4200;
-    board[16].baseRental = 420;
-    board[16].baseHouseCost = 1250;
-    board[16].baseHotelCost = 5000;
-    board[16].baseMortgageValue = 2250;
-
-    /* 17: Sri Lanka Insurance */
-    board[17].type = SQ_INSURANCE;
-    strncpy(board[17].name, "Sri Lanka Insurance", sizeof(board[17].name));
-
-    /* 18: Katunayake */
-    board[18].type = SQ_PROPERTY;
-    strncpy(board[18].name, "Katunayake", sizeof(board[18].name));
-    board[18].group = GRP_ORANGE;
-    board[18].region = REG_WESTERN_AIRPORT;
-    board[18].basePurchasePrice = 4500;
-    board[18].baseRental = 450;
-    board[18].baseHouseCost = 1250;
-    board[18].baseHotelCost = 5000;
-    board[18].baseMortgageValue = 2250;
-
-    /* 19: Ja-Ela */
-    board[19].type = SQ_PROPERTY;
-    strncpy(board[19].name, "Ja-Ela", sizeof(board[19].name));
-    board[19].group = GRP_ORANGE;
-    board[19].region = REG_WESTERN_AIRPORT;
-    board[19].basePurchasePrice = 4800;
-    board[19].baseRental = 480;
-    board[19].baseHouseCost = 1250;
-    board[19].baseHotelCost = 5000;
-    board[19].baseMortgageValue = 2250;
-
-    /* 20: Free Parking */
-    board[20].type = SQ_SPECIAL;
-    strncpy(board[20].name, "Free Parking", sizeof(board[20].name));
-
-    /* 21: Kandy City */
-    board[21].type = SQ_PROPERTY;
-    strncpy(board[21].name, "Kandy City", sizeof(board[21].name));
-    board[21].group = GRP_RED;
-    board[21].region = REG_CENTRAL_HILL;
-    board[21].basePurchasePrice = 5200;
-    board[21].baseRental = 520;
-    board[21].baseHouseCost = 1500;
-    board[21].baseHotelCost = 6000;
-    board[21].baseMortgageValue = 2750;
-
-    /* 22: National Event Card */
-    board[22].type = SQ_EVENT;
-    strncpy(board[22].name, "National Event Card", sizeof(board[22].name));
-
-    /* 23: Peradeniya */
-    board[23].type = SQ_PROPERTY;
-    strncpy(board[23].name, "Peradeniya", sizeof(board[23].name));
-    board[23].group = GRP_RED;
-    board[23].region = REG_CENTRAL_HILL;
-    board[23].basePurchasePrice = 5500;
-    board[23].baseRental = 550;
-    board[23].baseHouseCost = 1500;
-    board[23].baseHotelCost = 6000;
-    board[23].baseMortgageValue = 2750;
-
-    /* 24: Katugastota */
-    board[24].type = SQ_PROPERTY;
-    strncpy(board[24].name, "Katugastota", sizeof(board[24].name));
-    board[24].group = GRP_RED;
-    board[24].region = REG_CENTRAL_HILL;
-    board[24].basePurchasePrice = 5800;
-    board[24].baseRental = 580;
-    board[24].baseHouseCost = 1500;
-    board[24].baseHotelCost = 6000;
-    board[24].baseMortgageValue = 2750;
-
-    /* 25: Galle Railway Station */
-    board[25].type = SQ_RAILWAY;
-    strncpy(board[25].name, "Galle Railway Station", sizeof(board[25].name));
-    board[25].region = REG_SOUTHERN_PROVINCE;
-    board[25].basePurchasePrice = 2000;
-    board[25].baseRental = 250;
-    board[25].baseMortgageValue = 1000;
-
-    /* 26: Galle Fort */
-    board[26].type = SQ_PROPERTY;
-    strncpy(board[26].name, "Galle Fort", sizeof(board[26].name));
-    board[26].group = GRP_YELLOW;
-    board[26].region = REG_SOUTHERN_PROVINCE;
-    board[26].basePurchasePrice = 4500;
-    board[26].baseRental = 750;
-    board[26].baseHouseCost = 2000;
-    board[26].baseHotelCost = 8000;
-    board[26].baseMortgageValue = 3250;
-
-    /* 27: Unawatuna */
-    board[27].type = SQ_PROPERTY;
-    strncpy(board[27].name, "Unawatuna", sizeof(board[27].name));
-    board[27].group = GRP_YELLOW;
-    board[27].region = REG_SOUTHERN_PROVINCE;
-    board[27].basePurchasePrice = 6500;
-    board[27].baseRental = 650;
-    board[27].baseHouseCost = 2000;
-    board[27].baseHotelCost = 8000;
-    board[27].baseMortgageValue = 3250;
-
-    /* 28: National Water Supply and Drainage Board */
-    board[28].type = SQ_UTILITY;
-    strncpy(board[28].name, "National Water Supply and Drainage Board", sizeof(board[28].name));
-    board[28].basePurchasePrice = 2500;
-    board[28].baseMortgageValue = 1250;
-
-    /* 29: Hikkaduwa */
-    board[29].type = SQ_PROPERTY;
-    strncpy(board[29].name, "Hikkaduwa", sizeof(board[29].name));
-    board[29].group = GRP_YELLOW;
-    board[29].region = REG_SOUTHERN_PROVINCE;
-    board[29].basePurchasePrice = 6800;
-    board[29].baseRental = 680;
-    board[29].baseHouseCost = 2000;
-    board[29].baseHotelCost = 8000;
-    board[29].baseMortgageValue = 3250;
-
-    /* 30: Go To Jail */
-    board[30].type = SQ_SPECIAL;
-    strncpy(board[30].name, "Go To Jail", sizeof(board[30].name));
-
-    /* 31: Jaffna Town */
-    board[31].type = SQ_PROPERTY;
-    strncpy(board[31].name, "Jaffna Town", sizeof(board[31].name));
-    board[31].group = GRP_GREEN;
-    board[31].region = REG_NORTHERN_PROVINCE;
-    board[31].basePurchasePrice = 7500;
-    board[31].baseRental = 750;
-    board[31].baseHouseCost = 2500;
-    board[31].baseHotelCost = 10000;
-    board[31].baseMortgageValue = 4000;
-
-    /* 32: Nallur */
-    board[32].type = SQ_PROPERTY;
-    strncpy(board[32].name, "Nallur", sizeof(board[32].name));
-    board[32].group = GRP_GREEN;
-    board[32].region = REG_NORTHERN_PROVINCE;
-    board[32].basePurchasePrice = 8000;
-    board[32].baseRental = 800;
-    board[32].baseHouseCost = 2500;
-    board[32].baseHotelCost = 10000;
-    board[32].baseMortgageValue = 4000;
-
-    /* 33: Ceylinco Insurance */
-    board[33].type = SQ_INSURANCE;
-    strncpy(board[33].name, "Ceylinco Insurance", sizeof(board[33].name));
-
-    /* 34: Trincomalee */
-    board[34].type = SQ_PROPERTY;
-    strncpy(board[34].name, "Trincomalee", sizeof(board[34].name));
-    board[34].group = GRP_GREEN;
-    board[34].region = REG_EASTERN_PROVINCE;
-    board[34].basePurchasePrice = 8500;
-    board[34].baseRental = 850;
-    board[34].baseHouseCost = 2500;
-    board[34].baseHotelCost = 10000;
-    board[34].baseMortgageValue = 4000;
-
-    /* 35: Jaffna Railway Station */
-    board[35].type = SQ_RAILWAY;
-    strncpy(board[35].name, "Jaffna Railway Station", sizeof(board[35].name));
-    board[35].region = REG_NORTHERN_PROVINCE;
-    board[35].basePurchasePrice = 2000;
-    board[35].baseRental = 250;
-    board[35].baseMortgageValue = 1000;
-
-    /* 36: National Event Card */
-    board[36].type = SQ_EVENT;
-    strncpy(board[36].name, "National Event Card", sizeof(board[36].name));
-
-    /* 37: Nuwara Eliya */
-    board[37].type = SQ_PROPERTY;
-    strncpy(board[37].name, "Nuwara Eliya", sizeof(board[37].name));
-    board[37].group = GRP_DARK_BLUE;
-    board[37].region = REG_CENTRAL_HILL;
-    board[37].basePurchasePrice = 9500;
-    board[37].baseRental = 950;
-    board[37].baseHouseCost = 3000;
-    board[37].baseHotelCost = 12000;
-    board[37].baseMortgageValue = 5000;
-
-    /* 38: Bank of Ceylon */
-    board[38].type = SQ_BANK;
-    strncpy(board[38].name, "Bank of Ceylon", sizeof(board[38].name));
-
-    /* 39: Galle Face */
-    board[39].type = SQ_PROPERTY;
-    strncpy(board[39].name, "Galle Face", sizeof(board[39].name));
-    board[39].group = GRP_DARK_BLUE;
-    board[39].region = REG_PRIME_LUXURY;
-    board[39].basePurchasePrice = 10000;
-    board[39].baseRental = 1000;
-    board[39].baseHouseCost = 3000;
-    board[39].baseHotelCost = 12000;
-    board[39].baseMortgageValue = 5000;
+    fclose(file);
+    printf("Successfully loaded board data from '%s'\n", filename);
+    return 0;
 }
 
 int countPropertiesInGroup(PropertyGroup grp) {
