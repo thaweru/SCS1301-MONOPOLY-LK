@@ -28,7 +28,7 @@ int dice_roll(char *duble){
 }
 
 void determineTurnOrder(Game *game) {
-	/**struct keyval{
+	struct keyval{
 		Player a;
 		int k;
         char same;
@@ -41,7 +41,7 @@ void determineTurnOrder(Game *game) {
         printf("%s rolls %d.\n", p[i].a.name, p[i].k);
     }
     int start = 0, stop = NUM_PLAYERS, start_temp, stop_temp;
-    resort:
+  resort:
     for (int i=start; i < stop; i++){
         for (int j=start; j < stop-1; j++){
             if (p[j].k < p[j+1].k){
@@ -50,7 +50,7 @@ void determineTurnOrder(Game *game) {
                 p[j+1] = temp;
             }
             if (p[j].k == p[j+1].k){
-                p[j] = p[j+1] = 255;
+                p[j].same = p[j+1].same = 255;
             }
         }
     }
@@ -64,44 +64,19 @@ void determineTurnOrder(Game *game) {
             if (i > start_temp) start_temp = i;
         }
     }
-    if ()**/
-    int rolls[NUM_PLAYERS];
-    int highestRoll = -1;
-    int startingPlayer = 0;
-
-    /* Roll 2 dice per player */
-    int tie = 1;
-    while (tie) {
-        tie = 0;
-        highestRoll = -1;
-        for (int i = 0; i < NUM_PLAYERS; i++) {
-            int d1 = (rand() % 6) + 1;
-            int d2 = (rand() % 6) + 1;
-            rolls[i] = d1 + d2;
-            printf("%s rolls %d.\n", game->players[i].name, rolls[i]);
-            if (rolls[i] > highestRoll) {
-                highestRoll = rolls[i];
-                startingPlayer = i;
-            }
-        }
-
-        /* Check ties for highest */
-        int highCount = 0;
-        for (int i = 0; i < NUM_PLAYERS; i++) {
-            if (rolls[i] == highestRoll) highCount++;
-        }
-        if (highCount > 1) {
-            tie = 1;
-            printf("Tie for highest roll. Rerolling...\n\n");
-        }
+    if (start_temp != stop || stop_temp != start){
+        start = stop_temp;
+        stop = start_temp;
+        goto resort;
+    } 
+    for (int i = 0; i < NUM_PLAYERS; i++){
+        game->players[i] = p[i].a;
     }
-
-    printf("\n%s will begin the game.\n\n", game->players[startingPlayer].name);
+    printf("\n%s will begin the game.\n\n", game->players[0].name);
     printf("Turn order:\n");
     for (int i = 0; i < NUM_PLAYERS; i++) {
-        int pid = (startingPlayer + i) % NUM_PLAYERS;
-        game->turnOrder[i] = pid;
-        printf("%s\n", game->players[pid].name);
+        game->turnOrder[i] = i;
+        printf("%s\n", game->players[i].name);
     }
     printf("\n");
 }
